@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61") // todo version
+        classpath(kotlin(module = "gradle-plugin", version = Version.kotlin))
     }
 }
 

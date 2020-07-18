@@ -1,11 +1,6 @@
 plugins {
-    application
     kotlin(module = "jvm")
     apply(Plugin.openjfx, isWithVersion = true)
-}
-
-application {
-    mainClassName = "stan.kjfex.sample.App"
 }
 
 javafx {
@@ -14,7 +9,5 @@ javafx {
 }
 
 dependencies {
-    implementation(project(":lib"))
-
     implementation(kotlin(module = "stdlib"))
 }

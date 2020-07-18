@@ -1,6 +1,7 @@
 import org.gradle.api.initialization.dsl.ScriptHandler
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 import org.gradle.kotlin.dsl.project
+import org.gradle.kotlin.dsl.version
 import org.gradle.plugin.use.PluginDependenciesSpec
 
 fun Dependency.notation(): String {
@@ -41,8 +42,12 @@ fun DependencyHandlerScope.implementationProjects(
     projectNameOther.forEach(::implementationProject)
 }
 
-fun PluginDependenciesSpec.apply(plugin: Plugin) {
-    id(plugin.name)
+fun PluginDependenciesSpec.apply(plugin: Plugin, isWithVersion: Boolean = false) {
+    if (isWithVersion) {
+        id(plugin.name) version plugin.version
+    } else {
+        id(plugin.name)
+    }
 }
 
 fun PluginDependenciesSpec.applyAll(
