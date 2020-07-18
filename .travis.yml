@@ -2,22 +2,21 @@
 
 language: minimal
 
-#services:
-#  - docker
+services:
+  - docker
 
-#install:
-#  - export RESOURCES_PATH="${TRAVIS_BUILD_DIR}/buildSrc/src/main/resources"
+install:
+  - export RESOURCES_PATH="${TRAVIS_BUILD_DIR}/buildSrc/src/main/resources"
 
 script:
-  - echo test
-#  - docker build --no-cache -f ${RESOURCES_PATH}/docker/Dockerfile .
+  - docker build --no-cache -f ${RESOURCES_PATH}/docker/Dockerfile .
 
 #after_failure:
 #  - BUILD_SUCCESS=1
 #  - bash ${BASH_PATH}/after_failure.sh
 
-#after_success:
-#  - docker --version
+after_success:
+  - docker --version
 #  - bash ${BASH_PATH}/after_success.sh
 
 #after_script:
