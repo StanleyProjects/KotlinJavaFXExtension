@@ -1,0 +1,18 @@
+services:
+  - docker
+
+install:
+  - export RESOURCES_PATH="${TRAVIS_BUILD_DIR}/buildSrc/src/main/resources"
+
+script:
+  - docker build --no-cache -f ${RESOURCES_PATH}/docker/Dockerfile .
+
+#after_failure:
+#  - BUILD_SUCCESS=1
+#  - bash ${BASH_PATH}/after_failure.sh
+#
+#after_success:
+#  - bash ${BASH_PATH}/after_success.sh
+#
+#after_script:
+#  - bash ${BASH_PATH}/after_script.sh
