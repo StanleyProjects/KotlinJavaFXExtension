@@ -1,5 +1,6 @@
 /*
 !.gitignore
+!.travis.yml
 !build.gradle.kts
 !/buildSrc
 !/lib
@@ -7,4 +8,3 @@
 !LICENSE
 !README.md
 !settings.gradle.kts
-!travis.yml
