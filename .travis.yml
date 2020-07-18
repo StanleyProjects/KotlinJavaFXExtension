@@ -1,4 +1,4 @@
-sudo: required
+#sudo: required
 
 language: minimal
 
@@ -7,7 +7,7 @@ services:
 
 install:
   - export RESOURCES_PATH="${TRAVIS_BUILD_DIR}/buildSrc/src/main/resources"
-  - chmod +x .${RESOURCES_PATH}/script/pipeline.sh
+#  - chmod +x .${RESOURCES_PATH}/script/pipeline.sh
 
 script:
   - docker build --no-cache -f ${RESOURCES_PATH}/docker/Dockerfile .
