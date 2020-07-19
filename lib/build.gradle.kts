@@ -26,12 +26,12 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-//tasks.withType<JacocoCoverageVerification> {
-//    violationRules {
-//        rule {
-//            limit {
-//                minimum = BigDecimal(1.0)
-//            }
-//        }
-//    }
-//}
+/*tasks.withType<JacocoCoverageVerification> {
+    violationRules {
+        rule {
+            limit {
+                minimum = BigDecimal(1.0)
+            }
+        }
+    }
+}*/

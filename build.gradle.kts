@@ -1,5 +1,5 @@
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.gradle.DokkaPlugin
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 
 buildscript {
@@ -96,14 +96,16 @@ subprojects.filter {
         executionData(project.tasks.getByName("test"))
         sourceSets(project.sourceSet("main"))
     }
-//    project.task<DefaultTask>("verifyTestCoverage") {
-//        dependsOn(
-//            project.tasks.filterIsInstance<Test>(),
-////            it.tasks.filterIsInstance<JacocoReport>(),
-//            collectTestCoverageReport,
-//            project.tasks.filterIsInstance<JacocoCoverageVerification>()
-//        )
-//    }
+    /*
+    project.task<DefaultTask>("verifyTestCoverage") {
+        dependsOn(
+            project.tasks.filterIsInstance<Test>(),
+//            it.tasks.filterIsInstance<JacocoReport>(),
+            collectTestCoverageReport,
+            project.tasks.filterIsInstance<JacocoCoverageVerification>()
+        )
+    }
+    */
 }
 
 subprojects.filter {

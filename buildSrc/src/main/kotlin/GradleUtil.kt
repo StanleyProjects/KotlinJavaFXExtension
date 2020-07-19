@@ -1,12 +1,22 @@
-import org.gradle.api.initialization.dsl.ScriptHandler
 import org.gradle.api.Project
+import org.gradle.api.initialization.dsl.ScriptHandler
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetContainer
-import org.gradle.kotlin.dsl.*
+import org.gradle.kotlin.dsl.DependencyHandlerScope
+import org.gradle.kotlin.dsl.ScriptHandlerScope
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.get
+import org.gradle.kotlin.dsl.project
+import org.gradle.kotlin.dsl.the
+import org.gradle.kotlin.dsl.version
 import org.gradle.plugin.use.PluginDependenciesSpec
 
 fun Dependency.notation(): String {
     return "$group:$name:$version"
+}
+
+fun Iterable<Dependency>.notation(): Iterable<String> {
+    return map { it.notation() }
 }
 
 fun DependencyHandlerScope.addClasspath(dependency: Dependency) {
@@ -45,9 +55,9 @@ fun DependencyHandlerScope.addAll(
     firstPair: Pair<String, Set<Dependency>>,
     vararg pair: Pair<String, Set<Dependency>>
 ) {
-    addAll(configuration = firstPair.first, dependencies = firstPair.second.map {it.notation()}.toSet())
+    addAll(configuration = firstPair.first, dependencies = firstPair.second.notation().toSet())
     pair.forEach { (configuration, dependencies) ->
-        addAll(configuration = configuration, dependencies = dependencies.map {it.notation()}.toSet())
+        addAll(configuration = configuration, dependencies = dependencies.notation().toSet())
     }
 }
 
@@ -62,7 +72,7 @@ fun Project.dependencies(
             }
         }
         dependencies.forEach { (configuration, set) ->
-            addAll(configuration, dependencies = set.map {it.notation()}.toSet())
+            addAll(configuration, dependencies = set.notation().toSet())
         }
     }
 }
