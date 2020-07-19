@@ -1,37 +1,31 @@
-echo "verify script..."
-
 SCRIPT_STATUS=0
 
 echo "verify start..."
 
-bash $BASH_PATH/verify/verify_code_style_script.sh || SCRIPT_STATUS=$?
+tasks=("CodeStyle License Readme")
+tasksSize=${#tasks[@]}
 
-if test $SCRIPT_STATUS -ne 0; then
-    echo "verify error!"
-    exit $SCRIPT_STATUS
-fi
+timeStartCommon=$(date +%s)
+echo "tasks (${tasks[*]}) start..."
+for ((i = 0; i < tasksSize; i++)); do
+  task="${tasks[$i]}"
 
-bash $BASH_PATH/verify/verify_license_script.sh || SCRIPT_STATUS=$?
+  echo "task $task start..."
+  timeStart=$(date +%s)
+  status=0
+  gradle -q clean verify"$task" || status=$?
+  if test $SCRIPT_STATUS -eq 0 && test $status -ne 0; then SCRIPT_STATUS=1; fi
+  sec=$(($(date +%s) - timeStart))
+  if test $status -eq 0; then
+    echo "task $task success $sec sec"
+  else
+    if test $SCRIPT_STATUS -eq 0; then SCRIPT_STATUS=1; fi
+    echo "task $task error $sec sec"
+  fi
 
-if test $SCRIPT_STATUS -ne 0; then
-    echo "verify error!"
-    exit $SCRIPT_STATUS
-fi
+  echo "$((i + 1)) of $tasksSize done"
+done
 
-bash $BASH_PATH/verify/verify_readme_script.sh || SCRIPT_STATUS=$?
+echo "tasks (${tasks[*]}) finish $(($(date +%s) - timeStartCommon)) sec"
 
-if test $SCRIPT_STATUS -ne 0; then
-    echo "verify error!"
-    exit $SCRIPT_STATUS
-fi
-
-bash $BASH_PATH/verify/verify_service_script.sh || SCRIPT_STATUS=$?
-
-if test $SCRIPT_STATUS -ne 0; then
-    echo "verify error!"
-    exit $SCRIPT_STATUS
-fi
-
-echo "verify finish success"
-
-exit 0
+exit $SCRIPT_STATUS
