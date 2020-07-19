@@ -57,5 +57,10 @@ data class Plugin(
             name = "org.openjfx.javafxplugin",
             version = Version.openjfx
         )
+
+        val jacoco = Plugin(
+            name = "org.gradle.jacoco",
+            version = Version.jacoco
+        )
     }
 }

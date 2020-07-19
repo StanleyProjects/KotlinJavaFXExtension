@@ -1,13 +1,18 @@
 plugins {
     applyAll(
         Plugin.kotlinJvm,
-        Plugin.dokka
+        Plugin.dokka,
+        Plugin.jacoco
     )
     apply(Plugin.openjfx, isWithVersion = true)
 }
 
+jacoco {
+    toolVersion = Version.jacoco
+}
+
 javafx {
-    version = "14"
+    version = Version.javafx
     modules("javafx.controls")
 }
 
@@ -20,3 +25,13 @@ dependencies(
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+//tasks.withType<JacocoCoverageVerification> {
+//    violationRules {
+//        rule {
+//            limit {
+//                minimum = BigDecimal(1.0)
+//            }
+//        }
+//    }
+//}

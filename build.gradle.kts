@@ -9,6 +9,7 @@ buildscript {
 
 plugins {
     apply(Plugin.dokka, isWithVersion = true)
+    apply(Plugin.jacoco)
 }
 
 repositories.jcenter()
@@ -66,15 +67,6 @@ task<DefaultTask>("verifyLicense") {
     }
 }
 
-task<DefaultTask>("verifyAll") {
-    dependsOn(setOf(
-        "CodeStyle",
-        "Readme",
-        "Service",
-        "License"
-    ).map { "verify$it" })
-}
-
 task<Delete>("clean") {
     delete = setOf(rootProject.buildDir, "buildSrc/build")
 }
@@ -84,6 +76,35 @@ allprojects {
 }
 
 evaluationDependsOnChildren()
+
+val testCoverageReportPath = "${rootProject.buildDir}/report/test/coverage"
+
+subprojects.filter {
+    setOf(KotlinPluginWrapper::class, JacocoPlugin::class).all { plugin ->
+        it.plugins.hasPlugin(plugin)
+    }
+}.forEach { project ->
+    val collectTestCoverageReport = project.task<JacocoReport>("collectTestCoverageReport") {
+        reports {
+            xml.isEnabled = false // todo
+//            xml.isEnabled = true
+//            xml.destination = File("$testCoverageReportPath/${project.name}/xml/report.xml")
+            html.isEnabled = true
+            html.destination = File("$testCoverageReportPath/${project.name}/html")
+            csv.isEnabled = false
+        }
+        executionData(project.tasks.getByName("test"))
+        sourceSets(project.sourceSet("main"))
+    }
+//    project.task<DefaultTask>("verifyTestCoverage") {
+//        dependsOn(
+//            project.tasks.filterIsInstance<Test>(),
+////            it.tasks.filterIsInstance<JacocoReport>(),
+//            collectTestCoverageReport,
+//            project.tasks.filterIsInstance<JacocoCoverageVerification>()
+//        )
+//    }
+}
 
 subprojects.filter {
     setOf(KotlinPluginWrapper::class, DokkaPlugin::class).all { plugin ->
@@ -97,4 +118,13 @@ subprojects.filter {
             moduleName = "KotlinJavaFXExtension " + it.name
         }
     }
+}
+
+task<DefaultTask>("verifyAll") {
+    dependsOn(setOf(
+        "CodeStyle",
+        "Readme",
+        "Service",
+        "License"
+    ).map { "verify$it" })
 }

@@ -9,7 +9,7 @@ application {
 }
 
 javafx {
-    version = "14"
+    version = Version.javafx
     modules("javafx.controls")
 }
 
