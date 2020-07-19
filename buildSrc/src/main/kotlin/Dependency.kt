@@ -10,6 +10,11 @@ data class Dependency(
     val version: String
 ) {
     companion object {
+        val kotlinGradlePlugin = Dependency(
+            group = Group.kotlin,
+            name = "kotlin-gradle-plugin",
+            version = Version.kotlin
+        )
         val kotlinStdlib = Dependency(
             group = Group.kotlin,
             name = "kotlin-stdlib",
@@ -41,6 +46,11 @@ data class Plugin(
         val dokka = Plugin(
             name = Group.jetbrains + ".dokka",
             version = Version.dokka
+        )
+
+        val kotlinJvm = Plugin(
+            name = Group.kotlin + ".jvm",
+            version = Version.kotlin
         )
 
         val openjfx = Plugin(

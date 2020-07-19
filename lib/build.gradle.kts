@@ -1,7 +1,9 @@
 plugins {
-    kotlin(module = "jvm")
+    applyAll(
+        Plugin.kotlinJvm,
+        Plugin.dokka
+    )
     apply(Plugin.openjfx, isWithVersion = true)
-    apply(Plugin.dokka)
 }
 
 javafx {
@@ -10,9 +12,9 @@ javafx {
 }
 
 dependencies(
-    ConfigurationName.IMPLEMENTATION to setOf(Dependency.kotlinStdlib),
-    ConfigurationName.TEST_IMPLEMENTATION to setOf(Dependency.jupiterApi),
-    ConfigurationName.TEST_RUNTIME_ONLY to setOf(Dependency.jupiterEngine)
+    "implementation" to setOf(Dependency.kotlinStdlib),
+    "testImplementation" to setOf(Dependency.jupiterApi),
+    "testRuntimeOnly" to setOf(Dependency.jupiterEngine)
 )
 
 tasks.withType<Test> {

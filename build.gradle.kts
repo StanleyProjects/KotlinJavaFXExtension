@@ -3,28 +3,21 @@ import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 
 buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath(kotlin(module = "gradle-plugin", version = Version.kotlin))
-    }
+    repositories.jcenter()
+    dependencies(Dependency.kotlinGradlePlugin)
 }
 
 plugins {
     apply(Plugin.dokka, isWithVersion = true)
 }
 
-repositories {
-    jcenter()
-}
+repositories.jcenter()
 
 val kotlinLint: Configuration by configurations.creating
 
-dependencies {
-    kotlinLint(Dependency.kotlinLint.notation())
-}
+dependencies(
+    kotlinLint.name to setOf(Dependency.kotlinLint)
+)
 
 val documentationPath = "${rootProject.buildDir}/documentation"
 val documentationHtmlPath = "$documentationPath/html"
@@ -87,9 +80,7 @@ task<Delete>("clean") {
 }
 
 allprojects {
-    repositories {
-        jcenter()
-    }
+    repositories.jcenter()
 }
 
 evaluationDependsOnChildren()

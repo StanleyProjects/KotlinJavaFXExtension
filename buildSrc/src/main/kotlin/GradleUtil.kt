@@ -9,8 +9,16 @@ fun Dependency.notation(): String {
     return "$group:$name:$version"
 }
 
-fun DependencyHandlerScope.classpath(dependency: Dependency) {
+fun DependencyHandlerScope.addClasspath(dependency: Dependency) {
     add(ScriptHandler.CLASSPATH_CONFIGURATION, dependency.notation())
+}
+
+fun ScriptHandlerScope.dependencies(
+    firstDependency: Dependency,
+    vararg otherDependencies: Dependency
+) {
+    dependencies.addClasspath(firstDependency)
+    otherDependencies.forEach(dependencies::addClasspath)
 }
 
 fun DependencyHandlerScope.classpathAll(
@@ -18,46 +26,50 @@ fun DependencyHandlerScope.classpathAll(
     dependencySecond: Dependency,
     vararg dependencyOther: Dependency
 ) {
-    classpath(dependencyFirst)
-    classpath(dependencySecond)
-    dependencyOther.forEach(::classpath)
+    addClasspath(dependencyFirst)
+    addClasspath(dependencySecond)
+    dependencyOther.forEach(::addClasspath)
 }
 
 fun DependencyHandlerScope.implementation(dependency: Dependency) {
     add("implementation", dependency.notation())
 }
 
-enum class ConfigurationName {
-    IMPLEMENTATION,
-    TEST_IMPLEMENTATION,
-    TEST_RUNTIME_ONLY,
-}
-
-fun ConfigurationName.notation(): String {
-    return when(this) {
-        ConfigurationName.IMPLEMENTATION -> "implementation"
-        ConfigurationName.TEST_IMPLEMENTATION -> "testImplementation"
-        ConfigurationName.TEST_RUNTIME_ONLY -> "testRuntimeOnly"
+fun DependencyHandlerScope.addAll(configuration: String, dependencies: Set<String>) {
+    dependencies.forEach {
+        add(configuration, it)
     }
 }
 
 fun DependencyHandlerScope.addAll(
-    firstPair: Pair<ConfigurationName, Set<Dependency>>,
-    vararg pair: Pair<ConfigurationName, Set<Dependency>>
+    firstPair: Pair<String, Set<Dependency>>,
+    vararg pair: Pair<String, Set<Dependency>>
 ) {
-    firstPair.second.forEach {
-        add(firstPair.first.notation(), it.notation())
+    addAll(configuration = firstPair.first, dependencies = firstPair.second.map {it.notation()}.toSet())
+    pair.forEach { (configuration, dependencies) ->
+        addAll(configuration = configuration, dependencies = dependencies.map {it.notation()}.toSet())
     }
-    pair.forEach { (configuration, set) ->
-        set.forEach {
-            add(configuration.notation(), it.notation())
+}
+
+fun Project.dependencies(
+    projects: Map<String, Set<String>>,
+    dependencies: Map<String, Set<Dependency>>
+) {
+    dependencies {
+        projects.forEach { (configuration, dependencies) ->
+            dependencies.forEach { path ->
+                configuration(project(path))
+            }
+        }
+        dependencies.forEach { (configuration, set) ->
+            addAll(configuration, dependencies = set.map {it.notation()}.toSet())
         }
     }
 }
 
 fun Project.dependencies(
-    firstPair: Pair<ConfigurationName, Set<Dependency>>,
-    vararg pair: Pair<ConfigurationName, Set<Dependency>>
+    firstPair: Pair<String, Set<Dependency>>,
+    vararg pair: Pair<String, Set<Dependency>>
 ) {
     DependencyHandlerScope.of(dependencies).addAll(firstPair, *pair)
 }

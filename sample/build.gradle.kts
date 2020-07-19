@@ -1,6 +1,6 @@
 plugins {
     application
-    kotlin(module = "jvm")
+    apply(Plugin.kotlinJvm)
     apply(Plugin.openjfx, isWithVersion = true)
 }
 
@@ -13,8 +13,11 @@ javafx {
     modules("javafx.controls")
 }
 
-dependencies {
-    implementation(project(":lib"))
-
-    implementation(kotlin(module = "stdlib"))
-}
+dependencies(
+    projects = mapOf(
+        "implementation" to setOf(":lib")
+    ),
+    dependencies = mapOf(
+        "implementation" to setOf(Dependency.kotlinStdlib)
+    )
+)
