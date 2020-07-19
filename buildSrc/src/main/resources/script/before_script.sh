@@ -1,6 +1,6 @@
 echo "before script..."
 
-tasks=("compileKotlin compileTestKotlin")
+tasks=(compileKotlin compileTestKotlin)
 tasksSize=${#tasks[@]}
 
 timeStartCommon=$(date +%s)

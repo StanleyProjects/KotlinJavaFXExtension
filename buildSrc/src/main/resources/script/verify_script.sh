@@ -2,7 +2,7 @@ SCRIPT_STATUS=0
 
 echo "verify start..."
 
-tasks=("CodeStyle License Readme")
+tasks=(CodeStyle License Readme)
 tasksSize=${#tasks[@]}
 
 timeStartCommon=$(date +%s)

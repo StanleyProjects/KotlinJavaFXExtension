@@ -1,9 +1,8 @@
-echo "testing script..."
-
 SCRIPT_STATUS=0
 
 status=0
 task="lib:test"
+echo "run task $task"
 gradle -q clean $task || status=$?
 if test $status -eq 0; then
   echo "task $task success"
