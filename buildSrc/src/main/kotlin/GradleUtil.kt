@@ -27,6 +27,41 @@ fun DependencyHandlerScope.implementation(dependency: Dependency) {
     add("implementation", dependency.notation())
 }
 
+enum class ConfigurationName {
+    IMPLEMENTATION,
+    TEST_IMPLEMENTATION,
+    TEST_RUNTIME_ONLY,
+}
+
+fun ConfigurationName.notation(): String {
+    return when(this) {
+        ConfigurationName.IMPLEMENTATION -> "implementation"
+        ConfigurationName.TEST_IMPLEMENTATION -> "testImplementation"
+        ConfigurationName.TEST_RUNTIME_ONLY -> "testRuntimeOnly"
+    }
+}
+
+fun DependencyHandlerScope.addAll(
+    firstPair: Pair<ConfigurationName, Set<Dependency>>,
+    vararg pair: Pair<ConfigurationName, Set<Dependency>>
+) {
+    firstPair.second.forEach {
+        add(firstPair.first.notation(), it.notation())
+    }
+    pair.forEach { (configuration, set) ->
+        set.forEach {
+            add(configuration.notation(), it.notation())
+        }
+    }
+}
+
+fun Project.dependencies(
+    firstPair: Pair<ConfigurationName, Set<Dependency>>,
+    vararg pair: Pair<ConfigurationName, Set<Dependency>>
+) {
+    DependencyHandlerScope.of(dependencies).addAll(firstPair, *pair)
+}
+
 fun DependencyHandlerScope.implementationProject(
     projectName: String
 ) {

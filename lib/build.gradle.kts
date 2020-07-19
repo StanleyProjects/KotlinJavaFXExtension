@@ -9,6 +9,12 @@ javafx {
     modules("javafx.controls")
 }
 
-dependencies {
-    implementation(kotlin(module = "stdlib"))
+dependencies(
+    ConfigurationName.IMPLEMENTATION to setOf(Dependency.kotlinStdlib),
+    ConfigurationName.TEST_IMPLEMENTATION to setOf(Dependency.jupiterApi),
+    ConfigurationName.TEST_RUNTIME_ONLY to setOf(Dependency.jupiterEngine)
+)
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

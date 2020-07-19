@@ -39,5 +39,6 @@ fun box(
         height = height,
         padding = padding
     )
+    result.block()
     return result
 }

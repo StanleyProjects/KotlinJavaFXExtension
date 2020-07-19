@@ -1,13 +1,34 @@
+object Group {
+    const val jetbrains = "org.jetbrains"
+    const val kotlin = "$jetbrains.kotlin"
+    const val jupiter = "org.junit.jupiter"
+}
+
 data class Dependency(
     val group: String,
     val name: String,
     val version: String
 ) {
     companion object {
+        val kotlinStdlib = Dependency(
+            group = Group.kotlin,
+            name = "kotlin-stdlib",
+            version = Version.kotlin
+        )
         val kotlinLint = Dependency(
             group = "com.pinterest",
             name = "ktlint",
             version = Version.kotlinLint
+        )
+        val jupiterApi = Dependency(
+            group = Group.jupiter,
+            name = "junit-jupiter-api",
+            version = Version.jupiter
+        )
+        val jupiterEngine = Dependency(
+            group = Group.jupiter,
+            name = "junit-jupiter-engine",
+            version = Version.jupiter
         )
     }
 }
@@ -18,7 +39,7 @@ data class Plugin(
 ) {
     companion object {
         val dokka = Plugin(
-            name = "org.jetbrains.dokka",
+            name = Group.jetbrains + ".dokka",
             version = Version.dokka
         )
 
