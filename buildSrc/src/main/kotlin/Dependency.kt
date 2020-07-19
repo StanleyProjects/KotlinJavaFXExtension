@@ -1,7 +1,3 @@
-private object Group {
-    const val pinterest = "com.pinterest"
-}
-
 data class Dependency(
     val group: String,
     val name: String,
@@ -9,7 +5,7 @@ data class Dependency(
 ) {
     companion object {
         val kotlinLint = Dependency(
-            group = Group.pinterest,
+            group = "com.pinterest",
             name = "ktlint",
             version = Version.kotlinLint
         )
@@ -21,6 +17,11 @@ data class Plugin(
     val version: String
 ) {
     companion object {
+        val dokka = Plugin(
+            name = "org.jetbrains.dokka",
+            version = Version.dokka
+        )
+
         val openjfx = Plugin(
             name = "org.openjfx.javafxplugin",
             version = Version.openjfx

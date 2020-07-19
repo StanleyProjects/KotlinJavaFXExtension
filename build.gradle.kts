@@ -1,3 +1,7 @@
+import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.dokka.gradle.DokkaPlugin
+import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
+
 buildscript {
     repositories {
         jcenter()
@@ -8,12 +12,22 @@ buildscript {
     }
 }
 
+plugins {
+    apply(Plugin.dokka, isWithVersion = true)
+}
+
+repositories {
+    jcenter()
+}
+
 val kotlinLint: Configuration by configurations.creating
 
 dependencies {
     kotlinLint(Dependency.kotlinLint.notation())
 }
 
+val documentationPath = "${rootProject.buildDir}/documentation"
+val documentationHtmlPath = "$documentationPath/html"
 val reportsPath = "${rootProject.buildDir}/reports"
 val analysisPath = "$reportsPath/analysis"
 val analysisStylePath = "$analysisPath/style"
@@ -75,5 +89,21 @@ task<Delete>("clean") {
 allprojects {
     repositories {
         jcenter()
+    }
+}
+
+evaluationDependsOnChildren()
+
+subprojects.filter {
+    setOf(KotlinPluginWrapper::class, DokkaPlugin::class).all { plugin ->
+        it.plugins.hasPlugin(plugin)
+    }
+}.forEach {
+    it.task<DokkaTask>("collectDocumentation") {
+        outputFormat = "html"
+        outputDirectory = documentationHtmlPath
+        configuration {
+            moduleName = "KotlinJavaFXExtension " + it.name
+        }
     }
 }

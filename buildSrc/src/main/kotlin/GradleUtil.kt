@@ -1,7 +1,8 @@
 import org.gradle.api.initialization.dsl.ScriptHandler
-import org.gradle.kotlin.dsl.DependencyHandlerScope
-import org.gradle.kotlin.dsl.project
-import org.gradle.kotlin.dsl.version
+import org.gradle.api.Project
+import org.gradle.api.tasks.SourceSet
+import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.kotlin.dsl.*
 import org.gradle.plugin.use.PluginDependenciesSpec
 
 fun Dependency.notation(): String {
@@ -58,4 +59,10 @@ fun PluginDependenciesSpec.applyAll(
     apply(firstPlugin)
     apply(secondPlugin)
     other.forEach(::apply)
+}
+
+fun Project.sourceSet(name: String): SourceSet {
+    return the<SourceSetContainer>()[name] ?: error(
+        "Source set by name: $name must be exists in project: ${project.name}"
+    )
 }

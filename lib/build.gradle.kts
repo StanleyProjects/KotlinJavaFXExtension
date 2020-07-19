@@ -1,6 +1,7 @@
 plugins {
     kotlin(module = "jvm")
     apply(Plugin.openjfx, isWithVersion = true)
+    apply(Plugin.dokka)
 }
 
 javafx {
