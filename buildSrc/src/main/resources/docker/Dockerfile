@@ -1,4 +1,4 @@
-FROM kepocnhh/debianex-jdk12.0.2-gradle6.5:0.0.1
+FROM kepocnhh/dex-jaguar:0.0.1
 
 COPY . /build
 WORKDIR /build
