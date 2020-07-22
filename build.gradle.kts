@@ -47,7 +47,21 @@ task<DefaultTask>("verifyReadme") {
     doLast {
         val file = File(rootDir, "README.md")
         val text = file.requireFilledText()
-        // todo
+        val lines = text.split(SystemUtil.newLine)
+        val versionBadge = MarkdownUtil.image(
+            text = "version",
+            url = badgeUrl(
+                label = "version",
+                message = Version.name + "-" + Version.code,
+                color = "2962ff"
+            )
+        )
+        // todo bintray
+        listOf(
+            versionBadge
+        ).forEach {
+            check(lines.contains(it)) { "File by path ${file.absolutePath} must contains \"$it\" line!" }
+        }
     }
 }
 
