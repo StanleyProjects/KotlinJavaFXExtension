@@ -1,13 +1,13 @@
-package stan.kjfex.scene.layout
+package stan.kc.kjfex.scene.layout
 
 import javafx.geometry.Insets
 import javafx.scene.CacheHint
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
-import stan.kjfex.common.Orientation
-import stan.kjfex.scene.NodeDefault
-import stan.kjfex.scene.configure
+import stan.kc.kjfex.common.Orientation
+import stan.kc.kjfex.scene.NodeDefault
+import stan.kc.kjfex.scene.configure
 
 fun box(
     // node

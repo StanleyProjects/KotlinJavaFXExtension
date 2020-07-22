@@ -1,10 +1,10 @@
-package stan.kjfex.sample
+package stan.kc.kjfex
 
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.stage.Stage
-import stan.kjfex.scene.layout.label
-import stan.kjfex.scene.layout.pane
+import stan.kc.kjfex.scene.layout.label
+import stan.kc.kjfex.scene.layout.pane
 
 class App : Application() {
     override fun start(primaryStage: Stage?) {

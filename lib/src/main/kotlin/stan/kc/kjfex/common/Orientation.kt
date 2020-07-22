@@ -1,4 +1,4 @@
-package stan.kjfex.common
+package stan.kc.kjfex.common
 
 enum class Orientation {
     HORIZONTAL,

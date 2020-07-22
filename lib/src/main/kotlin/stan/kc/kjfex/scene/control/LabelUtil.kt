@@ -1,4 +1,4 @@
-package stan.kjfex.scene.control
+package stan.kc.kjfex.scene.control
 
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -6,14 +6,14 @@ import javafx.scene.CacheHint
 import javafx.scene.control.Label
 import javafx.scene.control.Labeled
 import javafx.scene.paint.Color
-import stan.kjfex.common.ColorEntity
-import stan.kjfex.common.toHex
-import stan.kjfex.scene.CSSProperty
-import stan.kjfex.scene.NodeDefault
-import stan.kjfex.scene.configure
-import stan.kjfex.scene.layout.RegionDefault
-import stan.kjfex.scene.layout.configure
-import stan.kjfex.scene.styleOf
+import stan.kc.kjfex.common.ColorEntity
+import stan.kc.kjfex.common.toHex
+import stan.kc.kjfex.scene.CSSProperty
+import stan.kc.kjfex.scene.NodeDefault
+import stan.kc.kjfex.scene.configure
+import stan.kc.kjfex.scene.layout.RegionDefault
+import stan.kc.kjfex.scene.layout.configure
+import stan.kc.kjfex.scene.styleOf
 
 internal object LabelDefault {
     val alignment: Pos = Pos.CENTER_LEFT

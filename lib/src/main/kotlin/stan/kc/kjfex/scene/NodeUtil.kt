@@ -1,9 +1,9 @@
-package stan.kjfex.scene
+package stan.kc.kjfex.scene
 
 import javafx.scene.CacheHint
 import javafx.scene.Node
 import javafx.scene.paint.Color
-import stan.kjfex.common.ColorEntity
+import stan.kc.kjfex.common.ColorEntity
 
 internal object NodeDefault {
     const val isCache: Boolean = true

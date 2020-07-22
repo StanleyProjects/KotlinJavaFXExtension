@@ -1,4 +1,4 @@
-package stan.kjfex.scene.layout
+package stan.kc.kjfex.scene.layout
 
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -6,9 +6,9 @@ import javafx.scene.CacheHint
 import javafx.scene.control.Label
 import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
-import stan.kjfex.scene.NodeDefault
-import stan.kjfex.scene.configure
-import stan.kjfex.scene.control.LabelDefault
+import stan.kc.kjfex.scene.NodeDefault
+import stan.kc.kjfex.scene.configure
+import stan.kc.kjfex.scene.control.LabelDefault
 
 fun pane(
     // node
@@ -57,7 +57,7 @@ fun Pane.label(
     needToAdd: Boolean = true,
     block: Label.() -> Unit = {}
 ): Label {
-    val result = stan.kjfex.scene.control.label(
+    val result = stan.kc.kjfex.scene.control.label(
         isCache = isCache,
         cacheHint = cacheHint,
         width = width,

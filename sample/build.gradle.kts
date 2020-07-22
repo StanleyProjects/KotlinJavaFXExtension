@@ -5,7 +5,7 @@ plugins {
 }
 
 application {
-    mainClassName = "stan.kjfex.sample.App"
+    mainClassName = Common.applicationId + ".App"
 }
 
 javafx {

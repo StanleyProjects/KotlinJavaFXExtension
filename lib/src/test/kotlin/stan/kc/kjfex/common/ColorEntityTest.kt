@@ -1,4 +1,4 @@
-package stan.kjfex.common
+package stan.kc.kjfex.common
 
 import javafx.scene.paint.Color
 import org.junit.jupiter.api.Test

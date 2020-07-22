@@ -1,4 +1,4 @@
-package stan.kjfex.scene.layout
+package stan.kc.kjfex.scene.layout
 
 import javafx.geometry.Insets
 import javafx.scene.layout.Region

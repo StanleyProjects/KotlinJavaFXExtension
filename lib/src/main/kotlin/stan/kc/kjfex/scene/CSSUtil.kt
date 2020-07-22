@@ -1,4 +1,4 @@
-package stan.kjfex.scene
+package stan.kc.kjfex.scene
 
 enum class CSSProperty {
     FONT_SIZE,
