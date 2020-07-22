@@ -80,11 +80,16 @@ evaluationDependsOnChildren()
 val testCoverageReportPath = "${rootProject.buildDir}/report/test/coverage"
 
 subprojects.filter {
-    setOf(KotlinPluginWrapper::class, JacocoPlugin::class).all { plugin ->
-        it.plugins.hasPlugin(plugin)
-    }
+    setOf(KotlinPluginWrapper::class, JacocoPlugin::class).all(it.plugins::hasPlugin)
 }.forEach { project ->
-    val collectTestCoverageReport = project.task<JacocoReport>("collectTestCoverageReport") {
+    val testTask = project.tasks.getByName("test")
+    require(testTask is Test)
+    val sourceSets = project.sourceSet("main")
+
+    project.task<JacocoReport>("collectTestCoverageReport") {
+        executionData(testTask)
+        sourceSets(sourceSets)
+
         reports {
             xml.isEnabled = false // todo
 //            xml.isEnabled = true
@@ -93,25 +98,24 @@ subprojects.filter {
             html.destination = File("$testCoverageReportPath/${project.name}/html")
             csv.isEnabled = false
         }
-        executionData(project.tasks.getByName("test"))
-        sourceSets(project.sourceSet("main"))
     }
-    /*
-    project.task<DefaultTask>("verifyTestCoverage") {
-        dependsOn(
-            project.tasks.filterIsInstance<Test>(),
-//            it.tasks.filterIsInstance<JacocoReport>(),
-            collectTestCoverageReport,
-            project.tasks.filterIsInstance<JacocoCoverageVerification>()
-        )
+
+    project.task<JacocoCoverageVerification>("verifyTestCoverage") {
+        executionData(testTask)
+        sourceSets(sourceSets)
+
+        violationRules {
+            rule {
+                limit {
+                    minimum = BigDecimal(1.0)
+                }
+            }
+        }
     }
-    */
 }
 
 subprojects.filter {
-    setOf(KotlinPluginWrapper::class, DokkaPlugin::class).all { plugin ->
-        it.plugins.hasPlugin(plugin)
-    }
+    setOf(KotlinPluginWrapper::class, DokkaPlugin::class).all(it.plugins::hasPlugin)
 }.forEach {
     it.task<DokkaTask>("collectDocumentation") {
         outputFormat = "html"
