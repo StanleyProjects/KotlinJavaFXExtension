@@ -1,13 +1,18 @@
-#sudo: required
-
 language: minimal
 
 services:
   - docker
 
+before_install:
+  - jq --version
+#  - apt-get install -qq --no-install-recommends jq && jq --version
+
 install:
   - export RESOURCES_PATH="${TRAVIS_BUILD_DIR}/buildSrc/src/main/resources"
-#  - chmod +x .${RESOURCES_PATH}/script/pipeline.sh
+  - source ${RESOURCES_PATH}/script/set_environment_variables.sh
+
+before_script:
+  - source ${RESOURCES_PATH}/script/vcs_connect.sh
 
 script:
   - docker build --no-cache -f ${RESOURCES_PATH}/docker/Dockerfile .
