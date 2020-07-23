@@ -34,3 +34,10 @@ export GIT_COMMITTER_EMAIL=$(echo $responseBody | jq -r .commit.committer.email)
 echo git committer email: $GIT_COMMITTER_EMAIL
 export GIT_COMMITTER_NAME=$(echo $responseBody | jq -r .commit.committer.name)
 echo git committer name: $GIT_COMMITTER_NAME
+
+export GITHUB_COMMITTER_LOGIN=$(echo $responseBody | jq -r .committer.login)
+if test -z $GITHUB_COMMITTER_LOGIN; then
+    echo no github committer login
+else
+    echo github committer login: $GITHUB_COMMITTER_LOGIN
+fi
