@@ -3,27 +3,23 @@ language: minimal
 services:
   - docker
 
-before_install:
-  - jq --version
-#  - apt-get install -qq --no-install-recommends jq && jq --version
-
 install:
-  - export RESOURCES_PATH="${TRAVIS_BUILD_DIR}/buildSrc/src/main/resources"
-  - source ${RESOURCES_PATH}/script/set_environment_variables.sh
+  - export RESOURCES_PATH="$TRAVIS_BUILD_DIR/buildSrc/src/main/resources"
+  - source $RESOURCES_PATH/script/set_environment_variables.sh
 
 before_script:
-  - source ${RESOURCES_PATH}/script/vcs_connect.sh
+  - source $RESOURCES_PATH/script/vcs_connect.sh
 
 script:
-  - docker build --no-cache -f ${RESOURCES_PATH}/docker/Dockerfile .
+  - docker build --no-cache -f $RESOURCES_PATH/docker/Dockerfile .
 
-#after_failure:
-#  - BUILD_SUCCESS=1
+after_failure:
+  - IS_BUILD_SUCCESS=$FALSE
 #  - bash ${BASH_PATH}/after_failure.sh
 
 # after_success:
 #   - docker --version
 #  - bash ${BASH_PATH}/after_success.sh
 
-#after_script:
-#  - bash ${BASH_PATH}/after_script.sh
+after_script:
+  - bash $RESOURCES_PATH/script/after_script.sh

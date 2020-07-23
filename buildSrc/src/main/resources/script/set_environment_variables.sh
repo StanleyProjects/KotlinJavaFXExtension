@@ -1,5 +1,10 @@
 echo "set environment variables..."
 
+export TRUE=0
+export FALSE=1
+
+export IS_BUILD_SUCCESS=$TRUE
+
 export GITHUB_OWNER=StanleyProjects
 export GITHUB_REPO=KotlinJavaFXExtension
 
