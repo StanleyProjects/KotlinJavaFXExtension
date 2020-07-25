@@ -1,6 +1,6 @@
 echo "pipeline start..."
 
-export BASH_PATH="buildSrc/src/main/resources/bash"
+export BASH_PATH=buildSrc/src/main/resources/bash
 
 PIPELINE_STATUS=0
 
@@ -15,7 +15,7 @@ VERIFY_STATUS=0
 #bash $BASH_PATH/verify.sh || VERIFY_STATUS=$? # todo
 
 TESTING_STATUS=0
-bash $BASH_PATH/testing.sh || TESTING_STATUS=$?
+#bash $BASH_PATH/testing.sh || TESTING_STATUS=$? # todo
 
 if test $VERIFY_STATUS -ne 0; then
     echo "Pipeline finish error! Cause verify error."
