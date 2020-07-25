@@ -34,7 +34,7 @@ if [[ $TRAVIS_PULL_REQUEST =~ $IS_INTEGER_REGEX ]]; then
     exit 1
   fi
   PR_SOURCE_BRANCH=$TRAVIS_PULL_REQUEST_BRANCH
-  echo "it is a pull request #$PR_NUMBER \"$PR_SOURCE_BRANCH\" -> \"$GIT_SOURCE_BRANCH\""
+  echo "it is a pull request #$PR_NUMBER $PR_SOURCE_BRANCH -> $GIT_SOURCE_BRANCH"
 else
   echo "it is not a pull request"
 fi

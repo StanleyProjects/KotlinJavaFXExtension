@@ -5,9 +5,9 @@ if test -z "$PR_NUMBER"; then
   exit 0
 fi
 
-if test -z "$PR_SOURCE_BRANCH_NAME"; then
+if test -z "$PR_SOURCE_BRANCH"; then
   echo "source branch of pull request #$PR_NUMBER undefined"
-  exit 0
+  exit 1
 fi
 
 for branchName in $PR_BRANCH_NAMES; do
