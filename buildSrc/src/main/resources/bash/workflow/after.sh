@@ -24,4 +24,4 @@ commit [${GIT_COMMIT_SHA::7}]($REPO_URL/commit/$GIT_COMMIT_SHA)
 committer email $GIT_COMMITTER_EMAIL
 committer name $committerName"
 
-bash $RESOURCES_PATH/bash/telegram_send_message.sh "$MESSAGE"
+bash $WORKFLOW/telegram_send_message.sh "$MESSAGE"

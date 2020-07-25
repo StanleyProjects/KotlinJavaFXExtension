@@ -1,8 +1,10 @@
 echo "main start..."
 
-bash $RESOURCES_PATH/bash/setup.sh || exit 1
+export WORKFLOW=$RESOURCES_PATH/bash/workflow
 
-bash $RESOURCES_PATH/bash/vcs_connect.sh || exit 2
+source $WORKFLOW/setup.sh || exit 1
+
+source $WORKFLOW/vcs_connect.sh || exit 2
 
 status=0
 #docker build --no-cache -f $RESOURCES_PATH/docker/Dockerfile . || status=1
@@ -15,4 +17,4 @@ else
 #    bash $RESOURCES_PATH/bash/after_failure.sh
 fi
 
-bash $RESOURCES_PATH/bash/after.sh
+bash $WORKFLOW/after.sh

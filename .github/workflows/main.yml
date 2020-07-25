@@ -25,4 +25,4 @@ jobs:
         echo ::set-env name=GIT_COMMIT_SHA::$(jq -r .pull_request.head.sha $GITHUB_EVENT_PATH)
     - run: git clone -q --depth=1 --branch=$GIT_SOURCE_BRANCH https://github.com/$GITHUB_OWNER/$GITHUB_REPO.git repository
     - working-directory: repository
-      run: bash $RESOURCES_PATH/bash/main.sh
+      run: bash $RESOURCES_PATH/bash/workflow/main.sh
