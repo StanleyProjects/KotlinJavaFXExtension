@@ -1,4 +1,4 @@
-echo "set environment variables..."
+echo "setup..."
 
 IS_INTEGER_REGEX="^[1-9][0-9]*$"
 
@@ -14,12 +14,6 @@ export IS_BUILD_SUCCESS=$TRUE
 export DEVELOP_BRANCH_NAME="snapshot"
 #export MASTER_BRANCH_NAME="master"
 export PR_BRANCH_NAMES="$DEVELOP_BRANCH_NAME"
-
-export GIT_SOURCE_BRANCH=$TRAVIS_BRANCH
-echo git source branch: $GIT_SOURCE_BRANCH
-
-export GIT_COMMIT_SHA=$TRAVIS_COMMIT
-echo git commit sha: $GIT_COMMIT_SHA
 
 export PR_NUMBER=""
 export PR_SOURCE_BRANCH=""

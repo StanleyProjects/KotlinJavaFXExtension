@@ -8,6 +8,9 @@ jobs:
     env:
       GITHUB_OWNER: StanleyProjects
       GITHUB_REPO: KotlinJavaFXExtension
+      telegram_bot_id: ${{ secrets.TELEGRAM_BOT_ID }}
+      telegram_bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      telegram_chat_id: ${{ secrets.TELEGRAM_CHAT_ID_COMMON }}
       RESOURCES_PATH: buildSrc/src/main/resources
     steps:
     - if: github.event_name == 'push'

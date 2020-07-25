@@ -16,17 +16,15 @@ MESSAGE=${MESSAGE//"#"/"%23"}
 MESSAGE=${MESSAGE//$'\n'/"%0A"}
 MESSAGE=${MESSAGE//$'\r'/""}
 
-responseCode=$(
-	curl -w '%{http_code}\n' -X GET -G \
-		-o /dev/null \
-		-s $url \
-		-d chat_id=$TELEGRAM_CHAT_ID \
-		-d text="$MESSAGE" \
-		-d parse_mode=markdown
-)
+code=$(curl -w '%{http_code}\n' -G \
+    -o /dev/null \
+    -s $url \
+    -d chat_id=$TELEGRAM_CHAT_ID \
+    -d text="$MESSAGE" \
+    -d parse_mode=markdown)
 
-if test $responseCode -ne 200; then
-    echo "Request error with response code $responseCode!"
+if test $code -ne 200; then
+    echo "Request error with response code $code!"
     exit 2
 fi
 
