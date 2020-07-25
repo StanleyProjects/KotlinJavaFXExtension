@@ -26,13 +26,14 @@ echo git commit sha: $GIT_COMMIT_SHA
 export PR_NUMBER=""
 export PR_SOURCE_BRANCH=""
 
-if test $TRAVIS_PULL_REQUEST =~ $IS_INTEGER_REGEX; then
+
+if [[ $TRAVIS_PULL_REQUEST =~ $IS_INTEGER_REGEX ]]; then
   PR_NUMBER=$TRAVIS_PULL_REQUEST
-  PR_SOURCE_BRANCH=$TRAVIS_PULL_REQUEST_BRANCH
-  if test -z "$PR_SOURCE_BRANCH"; then
+  if test -z "$TRAVIS_PULL_REQUEST_BRANCH"; then
     echo "name of the branch from which the PR originated must be not empty"
     exit 1
   fi
+  PR_SOURCE_BRANCH=$TRAVIS_PULL_REQUEST_BRANCH
   echo "it is a pull request #$PR_NUMBER \"$PR_SOURCE_BRANCH\" -> \"$GIT_SOURCE_BRANCH\""
 else
   echo "it is not a pull request"
