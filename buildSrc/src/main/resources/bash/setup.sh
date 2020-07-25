@@ -7,13 +7,11 @@ export FALSE=1
 
 export IS_BUILD_SUCCESS=$TRUE
 
-export GITHUB_OWNER=StanleyProjects
-export GITHUB_REPO=KotlinJavaFXExtension
-
 #export CI_BUILD_LIGHTWEIGHT="auto"
 
 #export DEVELOP_BRANCH_NAME="dev" # todo
-export DEVELOP_BRANCH_NAME="dev.test"
+#export DEVELOP_BRANCH_NAME="dev.test" # todo
+export DEVELOP_BRANCH_NAME="snapshot"
 #export MASTER_BRANCH_NAME="master"
 export PR_BRANCH_NAMES="$DEVELOP_BRANCH_NAME"
 

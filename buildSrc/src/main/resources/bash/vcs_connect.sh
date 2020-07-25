@@ -15,27 +15,26 @@ if test -z $GIT_COMMIT_SHA; then
   exit 3
 fi
 
-rm -f responseBodyFile
-responseCode=$(curl -w %{http_code} \
-    -o responseBodyFile \
+rm -f file
+code=$(curl -w %{http_code} -o file \
     -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/commits/$GIT_COMMIT_SHA)
 
-if test $responseCode -ne 200; then
-  echo "Request error with response code $responseCode!"
+if test $code -ne 200; then
+  echo "Request error with response code $code!"
   exit 4
 fi
 
-responseBody=$(<responseBodyFile)
-rm responseBodyFile
+body=$(<file)
+rm file
 
-export GIT_COMMIT_MESSAGE=$(echo $responseBody | jq -r .commit.message)
-echo git commit message: \"$GIT_COMMIT_MESSAGE\"
-export GIT_COMMITTER_EMAIL=$(echo $responseBody | jq -r .commit.committer.email)
+#export GIT_COMMIT_MESSAGE=$(echo $body | jq -r .commit.message)
+#echo git commit message: \"$GIT_COMMIT_MESSAGE\"
+export GIT_COMMITTER_EMAIL=$(echo $body | jq -r .commit.committer.email)
 echo git committer email: $GIT_COMMITTER_EMAIL
-export GIT_COMMITTER_NAME=$(echo $responseBody | jq -r .commit.committer.name)
+export GIT_COMMITTER_NAME=$(echo $body | jq -r .commit.committer.name)
 echo git committer name: $GIT_COMMITTER_NAME
 
-export GITHUB_COMMITTER_LOGIN=$(echo $responseBody | jq -r .committer.login)
+export GITHUB_COMMITTER_LOGIN=$(echo $body | jq -r .committer.login)
 if test -z $GITHUB_COMMITTER_LOGIN; then
     echo no github committer login
 else

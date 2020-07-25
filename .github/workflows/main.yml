@@ -10,22 +10,16 @@ jobs:
       GITHUB_REPO: KotlinJavaFXExtension
       RESOURCES_PATH: buildSrc/src/main/resources
     steps:
-    - run: echo event $(jq . $GITHUB_EVENT_PATH)
     - if: github.event_name == 'push'
-      run: echo ::set-env name=GIT_SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+      run: |
+        echo ::set-env name=GIT_SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+        echo ::set-env name=GIT_COMMIT_SHA::$(jq -r .after $GITHUB_EVENT_PATH)
     - if: github.event_name == 'pull_request'
       run: |
-        pr=$(jq --raw-output .pull_request.number $GITHUB_EVENT_PATH)
-        echo pr number $pr
-        rm -f file
-        code=$(curl -w %{http_code} -o file \
-          -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/pulls/$pr)
-        if test $code -ne 200; then
-          echo "Request error with response code $code!"; exit 1
-        fi
-        body=$(<file) && rm file
-        echo ::set-env name=GIT_SOURCE_BRANCH::$(echo $body | jq -r .head.ref)
-    - run: echo $GIT_SOURCE_BRANCH
+        echo ::set-env name=PR_NUMBER::$(jq -r .pull_request.number $GITHUB_EVENT_PATH)
+        echo ::set-env name=PR_SOURCE_BRANCH::$(jq -r .pull_request.base.ref $GITHUB_EVENT_PATH)
+        echo ::set-env name=GIT_SOURCE_BRANCH::$(jq -r .pull_request.head.ref $GITHUB_EVENT_PATH)
+        echo ::set-env name=GIT_COMMIT_SHA::$(jq -r .pull_request.head.sha $GITHUB_EVENT_PATH)
     - run: git clone -q --depth=1 --branch=$GIT_SOURCE_BRANCH https://github.com/$GITHUB_OWNER/$GITHUB_REPO.git repository
     - working-directory: repository
-      run: docker build --no-cache -f $RESOURCES_PATH/docker/Dockerfile .
+      run: bash $RESOURCES_PATH/bash/main.sh
