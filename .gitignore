@@ -1,10 +1,10 @@
 /*
-!.gitignore
-!.travis.yml
-!build.gradle.kts
+!/.github
 !/buildSrc
 !/lib
 !/sample
+!.gitignore
+!build.gradle.kts
 !LICENSE
 !README.md
 !settings.gradle.kts

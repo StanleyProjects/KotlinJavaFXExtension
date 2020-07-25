@@ -1,0 +1,16 @@
+name: Main workflow
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    env:
+      GITHUB_OWNER: StanleyProjects
+      GITHUB_REPO: KotlinJavaFXExtension
+      RESOURCES_PATH: ./repository/buildSrc/src/main/resources
+    steps:
+    - run: echo ::set-env name=GIT_SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+    - run: git clone -q --depth=1 --branch=$GIT_SOURCE_BRANCH https://github.com/$GITHUB_OWNER/$GITHUB_REPO.git ./repository
+    - working-directory: repository
+      run: docker build --no-cache -f $RESOURCES_PATH/docker/Dockerfile .
