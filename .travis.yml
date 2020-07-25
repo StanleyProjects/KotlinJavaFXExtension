@@ -17,9 +17,8 @@ after_failure:
   - IS_BUILD_SUCCESS=$FALSE
 #  - bash ${BASH_PATH}/after_failure.sh
 
-# after_success:
-#   - docker --version
-#  - bash ${BASH_PATH}/after_success.sh
+after_success:
+   - bash $RESOURCES_PATH/script/after_success.sh
 
 after_script:
   - bash $RESOURCES_PATH/script/after_script.sh
