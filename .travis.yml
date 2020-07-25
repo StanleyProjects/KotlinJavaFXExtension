@@ -9,9 +9,7 @@ install:
 
 before_script:
   - source $RESOURCES_PATH/script/vcs_connect.sh
-
-script:
-  - docker build --no-cache -f $RESOURCES_PATH/docker/Dockerfile . || exit 1
+  - docker build --no-cache -f $RESOURCES_PATH/docker/Dockerfile .
   - bash $RESOURCES_PATH/script/after_success.sh
 
 after_failure:

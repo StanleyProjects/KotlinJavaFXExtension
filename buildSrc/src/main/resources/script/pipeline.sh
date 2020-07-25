@@ -4,7 +4,7 @@ export BASH_PATH="buildSrc/src/main/resources/script"
 
 PIPELINE_STATUS=0
 
-bash $BASH_PATH/before_script.sh || PIPELINE_STATUS=$?
+#bash $BASH_PATH/before_script.sh || PIPELINE_STATUS=$? # todo
 
 if test $PIPELINE_STATUS -ne 0; then
   echo "pipeline finish error!"
@@ -12,7 +12,7 @@ if test $PIPELINE_STATUS -ne 0; then
 fi
 
 VERIFY_STATUS=0
-bash $BASH_PATH/verify_script.sh || VERIFY_STATUS=$?
+#bash $BASH_PATH/verify_script.sh || VERIFY_STATUS=$? # todo
 
 TESTING_STATUS=0
 bash $BASH_PATH/testing_script.sh || TESTING_STATUS=$?
