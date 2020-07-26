@@ -1,0 +1,29 @@
+name: Push workflow
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    env:
+      GITHUB_OWNER: StanleyProjects
+      GITHUB_REPO: KotlinJavaFXExtension
+      telegram_bot_id: ${{ secrets.TELEGRAM_BOT_ID }}
+      telegram_bot_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      telegram_chat_id: ${{ secrets.TELEGRAM_CHAT_ID_COMMON }}
+      github_pat: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      RESOURCES_PATH: buildSrc/src/main/resources
+    steps:
+    - if: github.event_name == 'push'
+      run: |
+        echo ::set-env name=GIT_SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
+        echo ::set-env name=GIT_COMMIT_SHA::$(jq -r .after $GITHUB_EVENT_PATH)
+    - if: github.event_name == 'pull_request'
+      run: |
+        echo ::set-env name=PR_NUMBER::$(jq -r .pull_request.number $GITHUB_EVENT_PATH)
+        echo ::set-env name=PR_SOURCE_BRANCH::$(jq -r .pull_request.base.ref $GITHUB_EVENT_PATH)
+        echo ::set-env name=GIT_SOURCE_BRANCH::$(jq -r .pull_request.head.ref $GITHUB_EVENT_PATH)
+        echo ::set-env name=GIT_COMMIT_SHA::$(jq -r .pull_request.head.sha $GITHUB_EVENT_PATH)
+    - run: git clone -q --depth=1 --branch=$GIT_SOURCE_BRANCH https://github.com/$GITHUB_OWNER/$GITHUB_REPO.git repository
+    - working-directory: repository
+      run: bash $RESOURCES_PATH/bash/workflow/main.sh
