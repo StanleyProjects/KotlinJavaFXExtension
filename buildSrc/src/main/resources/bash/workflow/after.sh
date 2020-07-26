@@ -35,10 +35,10 @@ fi
 
 user=""
 if test -z $GITHUB_AUTHOR_LOGIN; then
-    if test -z $GIT_AUTHOR_NAME; then
+    if test -z "$GIT_AUTHOR_NAME"; then
         if test -z $GIT_AUTHOR_EMAIL; then
             if test -z $GITHUB_COMMITTER_LOGIN; then
-                if test -z $GIT_COMMITTER_NAME; then
+                if test -z "$GIT_COMMITTER_NAME"; then
                     if test -z $GIT_COMMITTER_EMAIL; then
                         echo "No responsible user!"
                         exit 2
@@ -49,7 +49,7 @@ if test -z $GITHUB_AUTHOR_LOGIN; then
                     user="committer $GIT_COMMITTER_NAME"
                 fi
             else
-                if test -z $GIT_COMMITTER_NAME; then
+                if test -z "$GIT_COMMITTER_NAME"; then
                     user="committer [$GITHUB_COMMITTER_LOGIN](https://github.com/$GITHUB_COMMITTER_LOGIN)"
                 else
                     user="committer [$GIT_COMMITTER_NAME](https://github.com/$GITHUB_COMMITTER_LOGIN)"
@@ -62,7 +62,7 @@ if test -z $GITHUB_AUTHOR_LOGIN; then
         user="author $GIT_AUTHOR_NAME"
     fi
 else
-    if test -z $GIT_AUTHOR_NAME; then
+    if test -z "$GIT_AUTHOR_NAME"; then
         user="author [$GITHUB_AUTHOR_LOGIN](https://github.com/$GITHUB_AUTHOR_LOGIN)"
     else
         user="author [$GIT_AUTHOR_NAME](https://github.com/$GITHUB_AUTHOR_LOGIN)"

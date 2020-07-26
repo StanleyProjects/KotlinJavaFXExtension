@@ -48,7 +48,7 @@ else
     echo git author email: $GIT_AUTHOR_EMAIL
 fi
 export GIT_AUTHOR_NAME=$(echo $body | jq -r .commit.author.name)
-if test -z $GIT_AUTHOR_NAME; then
+if test -z "$GIT_AUTHOR_NAME"; then
     echo no git author name
 else
     echo git author name: $GIT_AUTHOR_NAME
