@@ -9,11 +9,12 @@ export IS_BUILD_SUCCESS=$TRUE
 
 #export CI_BUILD_LIGHTWEIGHT="auto"
 
-#export DEVELOP_BRANCH_NAME="dev" # todo
+#export DEVELOP_BRANCH_NAME=dev # todo
 #export DEVELOP_BRANCH_NAME="dev.test" # todo
-export DEVELOP_BRANCH_NAME="snapshot"
-#export MASTER_BRANCH_NAME="master"
-export PR_BRANCH_NAMES="$DEVELOP_BRANCH_NAME"
+export DEVELOP_BRANCH_NAME=snapshot
+#export MASTER_BRANCH_NAME=master
+#export PR_BRANCH_NAMES=$DEVELOP_BRANCH_NAME $MASTER_BRANCH_NAME
+export PR_BRANCH_NAMES=$DEVELOP_BRANCH_NAME
 
 if [[ $PR_NUMBER =~ $IS_INTEGER_REGEX ]]; then
   if test -z "$PR_SOURCE_BRANCH"; then
