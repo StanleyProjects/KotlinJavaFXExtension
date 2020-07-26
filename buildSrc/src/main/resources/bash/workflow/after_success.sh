@@ -11,9 +11,9 @@ if test -z "$PR_SOURCE_BRANCH"; then
 fi
 
 for it in $PR_BRANCH_NAMES; do
-    if test "$GIT_SOURCE_BRANCH" == "$it"; then
+    if test "$PR_SOURCE_BRANCH" == "$it"; then
         bash $WORKFLOW/accept_pr.sh || exit 2
     fi
 done
 
-echo "$GIT_SOURCE_BRANCH is not in [$PR_BRANCH_NAMES]"
+echo "$PR_SOURCE_BRANCH is not in [$PR_BRANCH_NAMES]"
