@@ -1,6 +1,6 @@
 echo "accept pr #$PR_NUMBER..."
 
-if test -z "$github_pat"; then
+if test -z $github_pat; then
     echo "GitHub personal access token must be exists!"
     exit 1
 fi
@@ -11,11 +11,15 @@ json="{\
 \"commit_message\":\"$message\"\
 }"
 
+echo $json
+
 code=$(curl -w %{http_code} \
     -X PUT \
     -H "Authorization: token $github_pat" \
     -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/commits/pulls/$PR_NUMBER/merge \
     -d "$json")
+
+echo $code
 
 if test $code -ne 200; then
     echo "Pull request #$PR_NUMBER accepting error!"
