@@ -11,14 +11,10 @@ json="{\
 \"commit_message\":\"$message\"\
 }"
 
-echo $json
-
 code=$(curl -w %{http_code} -o /dev/null -X PUT \
     -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/pulls/$PR_NUMBER/merge \
     -H "Authorization: token $github_pat" \
     -d "$json")
-
-echo $code
 
 if test $code -ne 200; then
     echo "Pull request #$PR_NUMBER accepting error!"
