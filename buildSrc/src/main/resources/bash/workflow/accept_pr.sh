@@ -5,7 +5,7 @@ if test -z $github_pat; then
     exit 1
 fi
 
-message="Merge branch $GIT_SOURCE_BRANCH(${GIT_COMMIT_SHA::7}) into $PR_SOURCE_BRANCH_NAME by GitHub"
+message="Merge branch $GIT_SOURCE_BRANCH(${GIT_COMMIT_SHA::7}) into $PR_SOURCE_BRANCH by GitHub"
 json="{\
 \"commit_title\":\"$message\",\
 \"commit_message\":\"$message\"\
@@ -13,10 +13,9 @@ json="{\
 
 echo $json
 
-code=$(curl -w %{http_code} \
-    -X PUT \
+code=$(curl -w %{http_code} -X PUT \
+    -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/pulls/$PR_NUMBER/merge \
     -H "Authorization: token $github_pat" \
-    -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/commits/pulls/$PR_NUMBER/merge \
     -d "$json")
 
 echo $code

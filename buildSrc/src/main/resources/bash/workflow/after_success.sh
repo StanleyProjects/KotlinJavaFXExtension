@@ -13,6 +13,7 @@ fi
 for it in $PR_BRANCH_NAMES; do
     if test $PR_SOURCE_BRANCH == $it; then
         bash $WORKFLOW/accept_pr.sh || exit 2
+        exit 0
     fi
 done
 
