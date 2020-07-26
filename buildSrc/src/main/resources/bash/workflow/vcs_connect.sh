@@ -29,14 +29,33 @@ rm file
 
 #export GIT_COMMIT_MESSAGE=$(echo $body | jq -r .commit.message)
 #echo git commit message: \"$GIT_COMMIT_MESSAGE\"
+
 export GIT_COMMITTER_EMAIL=$(echo $body | jq -r .commit.committer.email)
 echo git committer email: $GIT_COMMITTER_EMAIL
 export GIT_COMMITTER_NAME=$(echo $body | jq -r .commit.committer.name)
 echo git committer name: $GIT_COMMITTER_NAME
-
 export GITHUB_COMMITTER_LOGIN=$(echo $body | jq -r .committer.login)
 if test -z $GITHUB_COMMITTER_LOGIN; then
     echo no github committer login
 else
     echo github committer login: $GITHUB_COMMITTER_LOGIN
+fi
+
+export GIT_AUTHOR_EMAIL=$(echo $body | jq -r .commit.author.email)
+if test -z $GIT_AUTHOR_EMAIL; then
+    echo no git author email
+else
+    echo git author email: $GIT_AUTHOR_EMAIL
+fi
+export GIT_AUTHOR_NAME=$(echo $body | jq -r .commit.author.name)
+if test -z $GIT_AUTHOR_NAME; then
+    echo no git author name
+else
+    echo git author name: $GIT_AUTHOR_NAME
+fi
+export GITHUB_AUTHOR_LOGIN=$(echo $body | jq -r .author.login)
+if test -z $GITHUB_AUTHOR_LOGIN; then
+    echo no github author login
+else
+    echo github author login: $GITHUB_AUTHOR_LOGIN
 fi
