@@ -1,6 +1,6 @@
 echo "setup..."
 
-IS_INTEGER_REGEX="^[1-9][0-9]*$"
+export IS_INTEGER_REGEX="^[1-9][0-9]*$"
 
 export TRUE=0
 export FALSE=1

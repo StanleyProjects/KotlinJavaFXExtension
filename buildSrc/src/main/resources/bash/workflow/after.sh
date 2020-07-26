@@ -18,9 +18,7 @@ fi
 
 MID=""
 if test $IS_BUILD_SUCCESS -eq $TRUE; then
-    echo IS_BUILD_SUCCESS $IS_BUILD_SUCCESS
     if [[ $PR_NUMBER =~ $IS_INTEGER_REGEX ]]; then
-        echo PR_NUMBER $PR_NUMBER
         rm -f file
         code=$(curl -w %{http_code} -o file \
             -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/pulls/$PR_NUMBER)
