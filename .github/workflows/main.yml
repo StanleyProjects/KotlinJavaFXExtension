@@ -47,6 +47,6 @@ jobs:
     - run: git clone -q --depth=1 --branch=$GIT_SOURCE_BRANCH https://github.com/$GITHUB_OWNER/$GITHUB_REPO.git repository
     - if: github.event_name == 'workflow_dispatch'
       run: |
-        echo ::set-env name=GIT_COMMIT_SHA::$(git --git-dir=repository/.git rev-parse head)
+        echo ::set-env name=GIT_COMMIT_SHA::$(git --git-dir=repository/.git rev-parse $GIT_SOURCE_BRANCH)
     - working-directory: repository
       run: bash $RESOURCES_PATH/bash/workflow/main.sh
