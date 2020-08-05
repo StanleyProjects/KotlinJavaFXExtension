@@ -60,7 +60,7 @@ if test $CI_BUILD_LIGHTWEIGHT == $TRUE; then
     echo "It is lightweight build because CI_BUILD_LIGHTWEIGHT == true"
 elif test $CI_BUILD_LIGHTWEIGHT == $FALSE; then
     IS_LIGHTWEIGHT_BUILD_INTERNAL=$FALSE
-    echo "It is lightweight build because CI_BUILD_LIGHTWEIGHT == false"
+    echo "It is not a lightweight build because CI_BUILD_LIGHTWEIGHT == false"
 elif test $CI_BUILD_LIGHTWEIGHT == $AUTO; then
     if test $IS_LIGHTWEIGHT_BUILD == $TRUE; then
         echo "It is lightweight build because IS_LIGHTWEIGHT_BUILD == true"

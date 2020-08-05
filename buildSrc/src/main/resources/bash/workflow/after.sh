@@ -9,7 +9,7 @@ TOP="GitHub build [#$GITHUB_RUN_NUMBER]($REPO_URL/actions/runs/$GITHUB_RUN_ID)"
 MID=""
 if test $IS_LIGHTWEIGHT_BUILD_INTERNAL == $TRUE; then
     MID="
-successfully skipped
+skipped
 "
 else
     if test $IS_BUILD_SUCCESS == $TRUE; then
