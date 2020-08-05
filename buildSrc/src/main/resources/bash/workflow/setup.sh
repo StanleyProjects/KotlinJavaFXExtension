@@ -41,19 +41,14 @@ fi
 
 if [[ $GIT_COMMIT_MESSAGE == *"forceci"* ]]; then
     IS_LIGHTWEIGHT_BUILD=$FALSE
-    echo "It is not a lightweight build."
     echo "Commit message contains keyword."
 elif [[ $PR_NUMBER =~ $IS_INTEGER_REGEX ]]; then
     if [[ " ${PR_BRANCH_NAMES[@]} " =~ " $PR_SOURCE_BRANCH " ]]; then
         IS_LIGHTWEIGHT_BUILD=$FALSE
-        echo "It is not a lightweight build."
         echo "It is a pull request to $PR_SOURCE_BRANCH."
     else
-        echo "It is a lightweight build."
         echo "It is a pull request but not to one of [${PR_BRANCH_NAMES[@]}]"
     fi
-else
-    echo "It is a lightweight build."
 fi
 
 if test $CI_BUILD_LIGHTWEIGHT == $TRUE; then
