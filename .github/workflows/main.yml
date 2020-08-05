@@ -7,11 +7,11 @@ on:
   workflow_dispatch:
     inputs:
       ci_build_lightweight:
-        description: "One of [true, false, auto]."
+        description: "Is is a lightweight build? One of [true, false, auto]."
         required: true
         default: "auto"
       git_source_branch:
-        description: "dev, master..."
+        description: "GIT source branch name. For example [dev, master...]."
         required: true
         default: "dev"
 
