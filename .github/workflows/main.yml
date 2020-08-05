@@ -1,6 +1,15 @@
-name: Push workflow
+name: Pipeline
 
-on: [push, pull_request]
+on:
+  pull_request:
+    types: [opened]
+  push:
+  workflow_dispatch:
+    inputs:
+      ci_build_lightweight:
+        description: "One of [true, false, auto]."
+        required: true
+        default: "auto"
 
 jobs:
   build:
@@ -18,12 +27,17 @@ jobs:
       run: |
         echo ::set-env name=GIT_SOURCE_BRANCH::${GITHUB_REF#refs/heads/}
         echo ::set-env name=GIT_COMMIT_SHA::$(jq -r .after $GITHUB_EVENT_PATH)
+        echo ::set-env name=CI_BUILD_LIGHTWEIGHT::auto
     - if: github.event_name == 'pull_request'
       run: |
         echo ::set-env name=PR_NUMBER::$(jq -r .pull_request.number $GITHUB_EVENT_PATH)
         echo ::set-env name=PR_SOURCE_BRANCH::$(jq -r .pull_request.base.ref $GITHUB_EVENT_PATH)
         echo ::set-env name=GIT_SOURCE_BRANCH::$(jq -r .pull_request.head.ref $GITHUB_EVENT_PATH)
         echo ::set-env name=GIT_COMMIT_SHA::$(jq -r .pull_request.head.sha $GITHUB_EVENT_PATH)
+        echo ::set-env name=CI_BUILD_LIGHTWEIGHT::auto
+    - if: github.event_name == 'workflow_dispatch'
+      run: |
+        echo ::set-env name=CI_BUILD_LIGHTWEIGHT::${{github.event.inputs.ci_build_lightweight}}
     - run: git clone -q --depth=1 --branch=$GIT_SOURCE_BRANCH https://github.com/$GITHUB_OWNER/$GITHUB_REPO.git repository
     - working-directory: repository
       run: bash $RESOURCES_PATH/bash/workflow/main.sh

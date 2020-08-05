@@ -148,3 +148,15 @@ task<DefaultTask>("verifyAll") {
         "License"
     ).map { "verify$it" })
 }
+
+task("versionName") {
+    doLast {
+        println(Version.name)
+    }
+}
+
+task("versionCode") {
+    doLast {
+        println(Version.code)
+    }
+}

@@ -5,16 +5,13 @@ if test -z "$PR_NUMBER"; then
     exit 0
 fi
 
-if test -z "$PR_SOURCE_BRANCH"; then
+if test -z $PR_SOURCE_BRANCH; then
     echo "source branch of pull request #$PR_NUMBER undefined"
     exit 1
 fi
 
-for it in $PR_BRANCH_NAMES; do
-    if test $PR_SOURCE_BRANCH == $it; then
-        bash $WORKFLOW/accept_pr.sh || exit 2
-        exit 0
-    fi
-done
-
-echo "$PR_SOURCE_BRANCH is not in [$PR_BRANCH_NAMES]"
+if [[ " ${PR_BRANCH_NAMES[@]} " =~ " $PR_SOURCE_BRANCH " ]]; then
+    bash $WORKFLOW/accept_pr.sh || exit 2
+else
+    echo "$PR_SOURCE_BRANCH is not in [${PR_BRANCH_NAMES[@]}]"
+fi

@@ -3,33 +3,37 @@ echo "after..."
 REPO_OWNER=$GITHUB_OWNER
 REPO_NAME=$GITHUB_REPO
 REPO_URL=https://github.com/$REPO_OWNER/$REPO_NAME
-CI_URL=$REPO_URL/actions/runs
 
-TOP="GitHub build [#$GITHUB_RUN_NUMBER]($CI_URL/$GITHUB_RUN_ID)"
-if test $IS_BUILD_SUCCESS -ne $TRUE; then
-    TOP="$TOP failure!"
-fi
+TOP="GitHub build [#$GITHUB_RUN_NUMBER]($REPO_URL/actions/runs/$GITHUB_RUN_ID)"
 
 MID=""
-if test $IS_BUILD_SUCCESS -eq $TRUE; then
-    if [[ $PR_NUMBER =~ $IS_INTEGER_REGEX ]]; then
-        rm -f file
-        code=$(curl -w %{http_code} -o file \
-            -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/pulls/$PR_NUMBER)
-        if test $code -ne 200; then
-            echo "Get pull request #$PR_NUMBER error!"
-            echo "Request error with response code $code!"
-            exit 1
-        fi
-        body=$(<file); rm file
-        merged=$(echo $body | jq -r .merged)
-        if test $merged == true; then
-            MID="
+if test $IS_LIGHTWEIGHT_BUILD_INTERNAL == $TRUE; then
+    MID="
+successfully skipped
+"
+else
+    if test $IS_BUILD_SUCCESS == $TRUE; then
+        if [[ $PR_NUMBER =~ $IS_INTEGER_REGEX ]]; then
+            rm -f file
+            code=$(curl -w %{http_code} -o file \
+                -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/pulls/$PR_NUMBER)
+            if test $code -ne 200; then
+                echo "Get pull request #$PR_NUMBER error!"
+                echo "Request error with response code $code!"
+                exit 1
+            fi
+            body=$(<file); rm file
+            merged=$(echo $body | jq -r .merged)
+            if test $merged == true; then
+                MID="
 pull request [#$PR_NUMBER](https://github.com/$GITHUB_OWNER/$GITHUB_REPO/pull/$PR_NUMBER) merged
 "
-        else
-            echo "Pull request #$PR_NUMBER not merged"
+            else
+                echo "Pull request #$PR_NUMBER not merged"
+            fi
         fi
+    else
+        TOP="$TOP failure!"
     fi
 fi
 
