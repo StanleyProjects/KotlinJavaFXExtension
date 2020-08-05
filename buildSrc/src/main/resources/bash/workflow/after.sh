@@ -5,12 +5,10 @@ REPO_NAME=$GITHUB_REPO
 REPO_URL=https://github.com/$REPO_OWNER/$REPO_NAME
 
 TOP="GitHub build [#$GITHUB_RUN_NUMBER]($REPO_URL/actions/runs/$GITHUB_RUN_ID)"
-
 MID=""
+
 if test $IS_LIGHTWEIGHT_BUILD_INTERNAL == $TRUE; then
-    MID="
-skipped
-"
+    TOP="$TOP skipped"
 else
     if test $IS_BUILD_SUCCESS == $TRUE; then
         if [[ $PR_NUMBER =~ $IS_INTEGER_REGEX ]]; then
