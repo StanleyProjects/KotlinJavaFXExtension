@@ -2,9 +2,9 @@ echo "main start..."
 
 export WORKFLOW=$RESOURCES_PATH/bash/workflow
 
-. $WORKFLOW/vcs_connect.src || exit 1
+. $WORKFLOW/vcs_connect.sh || exit 1
 
-. $WORKFLOW/setup.src || exit 2
+. $WORKFLOW/setup.sh || exit 2
 
 if test $IS_LIGHTWEIGHT_BUILD_INTERNAL == $TRUE; then
     echo "skip main pipeline..."
