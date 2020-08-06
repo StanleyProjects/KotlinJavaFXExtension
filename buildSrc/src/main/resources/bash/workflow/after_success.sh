@@ -1,5 +1,8 @@
 echo "after success..."
 
+echo "PR_BRANCH_NAMES [${PR_BRANCH_NAMES[@]}]" # todo
+exit 999
+
 if test -z "$PR_NUMBER"; then
     echo "it is not pull request"
     exit 0

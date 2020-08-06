@@ -18,6 +18,7 @@ export IS_LIGHTWEIGHT_BUILD_INTERNAL=$TRUE
 export DEVELOP_BRANCH_NAME=dev
 export MASTER_BRANCH_NAME=master
 export PR_BRANCH_NAMES=($DEVELOP_BRANCH_NAME $MASTER_BRANCH_NAME)
+echo "PR_BRANCH_NAMES [${PR_BRANCH_NAMES[@]}]" # todo
 
 if [[ $PR_NUMBER =~ $IS_INTEGER_REGEX ]]; then
     if test -z $PR_SOURCE_BRANCH; then
@@ -61,7 +62,7 @@ elif test $CI_BUILD_LIGHTWEIGHT == $AUTO; then
         echo "It is lightweight build because IS_LIGHTWEIGHT_BUILD == true"
     elif test $IS_LIGHTWEIGHT_BUILD == $FALSE; then
         IS_LIGHTWEIGHT_BUILD_INTERNAL=$FALSE
-        echo "It is lightweight build because IS_LIGHTWEIGHT_BUILD == false"
+        echo "It is not a lightweight build because IS_LIGHTWEIGHT_BUILD == false"
     else
         echo "IS_LIGHTWEIGHT_BUILD must be in [$TRUE, $FALSE], but it is $IS_LIGHTWEIGHT_BUILD"
         exit 12
