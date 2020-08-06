@@ -5,9 +5,10 @@ if test -z $github_pat; then
     return 1
 fi
 
-message="Merge $GIT_SOURCE_BRANCH(${GIT_COMMIT_SHA::7}) -> $PR_SOURCE_BRANCH by $GIT_WORKER_NAME"
+title="Merge ${GIT_COMMIT_SHA::7} -> $PR_SOURCE_BRANCH by $GIT_WORKER_NAME"
+message=""
 json="{\
-\"commit_title\":\"$message\",\
+\"commit_title\":\"$title\",\
 \"commit_message\":\"$message\"\
 }"
 
