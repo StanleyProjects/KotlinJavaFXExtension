@@ -5,12 +5,10 @@ REPO_NAME=$GITHUB_REPO
 REPO_URL=https://github.com/$REPO_OWNER/$REPO_NAME
 
 TOP="GitHub build [#$GITHUB_RUN_NUMBER]($REPO_URL/actions/runs/$GITHUB_RUN_ID)"
-
 MID=""
+
 if test $IS_LIGHTWEIGHT_BUILD_INTERNAL == $TRUE; then
-    MID="
-successfully skipped
-"
+    TOP="$TOP skipped"
 else
     if test $IS_BUILD_SUCCESS == $TRUE; then
         if [[ $PR_NUMBER =~ $IS_INTEGER_REGEX ]]; then
@@ -20,13 +18,14 @@ else
             if test $code -ne 200; then
                 echo "Get pull request #$PR_NUMBER error!"
                 echo "Request error with response code $code!"
-                exit 1
+                return 1
             fi
             body=$(<file); rm file
             merged=$(echo $body | jq -r .merged)
             if test $merged == true; then
                 MID="
-pull request [#$PR_NUMBER](https://github.com/$GITHUB_OWNER/$GITHUB_REPO/pull/$PR_NUMBER) merged
+pull request [#$PR_NUMBER](https://github.com/$GITHUB_OWNER/$GITHUB_REPO/pull/$PR_NUMBER) \
+merged by [$GIT_WORKER_NAME](https://github.com/$GITHUB_WORKER_LOGIN)
 "
             else
                 echo "Pull request #$PR_NUMBER not merged"
@@ -45,7 +44,7 @@ if test -z $GITHUB_AUTHOR_LOGIN; then
                 if test -z "$GIT_COMMITTER_NAME"; then
                     if test -z $GIT_COMMITTER_EMAIL; then
                         echo "No responsible user!"
-                        exit 2
+                        return 2
                     else
                         user="committer $GIT_COMMITTER_EMAIL"
                     fi
@@ -75,9 +74,8 @@ fi
 
 MESSAGE="$TOP
 
-Repository [$REPO_NAME]($REPO_URL) of [$REPO_OWNER](https://github.com/$REPO_OWNER)
+[$REPO_OWNER](https://github.com/$REPO_OWNER)/[$REPO_NAME]($REPO_URL)/[${GIT_COMMIT_SHA::7}]($REPO_URL/commit/$GIT_COMMIT_SHA)
 $MID
-commit [${GIT_COMMIT_SHA::7}]($REPO_URL/commit/$GIT_COMMIT_SHA)
 $user"
 
 bash $WORKFLOW/telegram_send_message.sh "$MESSAGE"
