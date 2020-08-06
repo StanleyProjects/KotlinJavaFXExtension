@@ -24,7 +24,8 @@ else
             merged=$(echo $body | jq -r .merged)
             if test $merged == true; then
                 MID="
-pull request [#$PR_NUMBER](https://github.com/$GITHUB_OWNER/$GITHUB_REPO/pull/$PR_NUMBER) merged
+pull request [#$PR_NUMBER](https://github.com/$GITHUB_OWNER/$GITHUB_REPO/pull/$PR_NUMBER) \
+merged by [$GIT_WORKER_NAME](https://github.com/$GITHUB_WORKER_LOGIN)
 "
             else
                 echo "Pull request #$PR_NUMBER not merged"
@@ -73,9 +74,8 @@ fi
 
 MESSAGE="$TOP
 
-Repository [$REPO_NAME]($REPO_URL) of [$REPO_OWNER](https://github.com/$REPO_OWNER)
+[$REPO_OWNER](https://github.com/$REPO_OWNER)/[$REPO_NAME]($REPO_URL)/[${GIT_COMMIT_SHA::7}]($REPO_URL/commit/$GIT_COMMIT_SHA)
 $MID
-commit [${GIT_COMMIT_SHA::7}]($REPO_URL/commit/$GIT_COMMIT_SHA)
 $user"
 
 bash $WORKFLOW/telegram_send_message.sh "$MESSAGE"
