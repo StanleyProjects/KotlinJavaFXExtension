@@ -14,7 +14,7 @@ else
 
     if test $IS_BUILD_SUCCESS == $TRUE; then
         echo "PR_BRANCH_NAMES [${PR_BRANCH_NAMES[@]}]" # todo
-        bash $WORKFLOW/after_success.sh || IS_BUILD_SUCCESS=$FALSE
+        source $WORKFLOW/after_success.sh || IS_BUILD_SUCCESS=$FALSE
         echo "PR_BRANCH_NAMES [${PR_BRANCH_NAMES[@]}]" # todo
     else
         IS_BUILD_SUCCESS=$FALSE # todo
