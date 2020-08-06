@@ -1,19 +1,19 @@
 echo "vcs connect..."
 
 if test -z $GITHUB_OWNER; then
-    echo "GitHub owner must be exists!"; exit 11
+    echo "GitHub owner must be exists!"; return 11
 fi
 
 if test -z $GITHUB_REPO; then
-    echo "GitHub repo must be exists!"; exit 12
+    echo "GitHub repo must be exists!"; return 12
 fi
 
 if test -z $GIT_COMMIT_SHA; then
-    echo "GIT commit sha must be exists!"; exit 13
+    echo "GIT commit sha must be exists!"; return 13
 fi
 
 if test -z $github_pat; then
-    echo "GitHub personal access token must be exists!"; exit 14
+    echo "GitHub personal access token must be exists!"; return 14
 fi
 
 rm -f file
@@ -21,7 +21,7 @@ code=$(curl -w %{http_code} -o file \
     -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/commits/$GIT_COMMIT_SHA)
 
 if test $code -ne 200; then
-    echo "Request error with response code $code!"; exit 21
+    echo "Request error with response code $code!"; return 21
 fi
 
 body=$(<file)
@@ -54,7 +54,7 @@ code=$(curl -w %{http_code} -o file \
     -H "Authorization: token $github_pat")
 
 if test $code -ne 200; then
-    echo "Request error with response code $code!"; exit 22
+    echo "Request error with response code $code!"; return 22
 fi
 
 body=$(<file)

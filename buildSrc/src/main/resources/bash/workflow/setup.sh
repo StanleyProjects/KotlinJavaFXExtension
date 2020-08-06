@@ -1,7 +1,7 @@
 echo "setup..."
 
 if test -z "$GIT_COMMIT_MESSAGE"; then
-    echo "Git commit message must be exists!"; exit 1
+    echo "Git commit message must be exists!"; return 11
 fi
 
 export IS_INTEGER_REGEX="^[1-9][0-9]*$"
@@ -18,21 +18,20 @@ export IS_LIGHTWEIGHT_BUILD_INTERNAL=$TRUE
 export DEVELOP_BRANCH_NAME=dev
 export MASTER_BRANCH_NAME=master
 export PR_BRANCH_NAMES=($DEVELOP_BRANCH_NAME $MASTER_BRANCH_NAME)
-echo "PR_BRANCH_NAMES [${PR_BRANCH_NAMES[@]}]" # todo
 
 if [[ $PR_NUMBER =~ $IS_INTEGER_REGEX ]]; then
     if test -z $PR_SOURCE_BRANCH; then
         echo "name of the branch from which the PR originated must be not empty"
-        exit 21
+        return 21
     elif test $PR_SOURCE_BRANCH == $DEVELOP_BRANCH_NAME; then
         if [[ " $DEVELOP_BRANCH_NAME $MASTER_BRANCH_NAME " =~ " $GIT_SOURCE_BRANCH " ]]; then
             echo "Pull request to $DEVELOP_BRANCH_NAME forbidden for $GIT_SOURCE_BRANCH"
-            exit 22
+            return 22
         fi
     elif test $PR_SOURCE_BRANCH == $MASTER_BRANCH_NAME; then
         if test $MASTER_BRANCH_NAME == $GIT_SOURCE_BRANCH ]]; then
             echo "Pull request to $MASTER_BRANCH_NAME forbidden for $GIT_SOURCE_BRANCH"
-            exit 23
+            return 23
         fi
     fi
     echo "It is a pull request #$PR_NUMBER $GIT_SOURCE_BRANCH -> $PR_SOURCE_BRANCH"
@@ -65,9 +64,9 @@ elif test $CI_BUILD_LIGHTWEIGHT == $AUTO; then
         echo "It is not a lightweight build because IS_LIGHTWEIGHT_BUILD == false"
     else
         echo "IS_LIGHTWEIGHT_BUILD must be in [$TRUE, $FALSE], but it is $IS_LIGHTWEIGHT_BUILD"
-        exit 12
+        return 32
     fi
 else
     echo "CI_BUILD_LIGHTWEIGHT must be in [$TRUE, $FALSE, $AUTO], but it is $CI_BUILD_LIGHTWEIGHT"
-    exit 11
+    return 31
 fi

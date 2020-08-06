@@ -18,7 +18,7 @@ else
             if test $code -ne 200; then
                 echo "Get pull request #$PR_NUMBER error!"
                 echo "Request error with response code $code!"
-                exit 1
+                return 1
             fi
             body=$(<file); rm file
             merged=$(echo $body | jq -r .merged)
@@ -44,7 +44,7 @@ if test -z $GITHUB_AUTHOR_LOGIN; then
                 if test -z "$GIT_COMMITTER_NAME"; then
                     if test -z $GIT_COMMITTER_EMAIL; then
                         echo "No responsible user!"
-                        exit 2
+                        return 2
                     else
                         user="committer $GIT_COMMITTER_EMAIL"
                     fi
