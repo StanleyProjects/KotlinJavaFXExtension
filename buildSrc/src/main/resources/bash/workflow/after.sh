@@ -33,6 +33,39 @@ merged by [$GIT_WORKER_NAME](https://github.com/$GITHUB_WORKER_LOGIN)"
         fi
     else
         TOP="$TOP failure!"
+        if [[ $PR_NUMBER =~ $IS_INTEGER_REGEX ]]; then
+            rm -f file
+            code=$(curl -w %{http_code} -o file \
+                -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/pulls/$PR_NUMBER)
+            if test $code -ne 200; then
+                echo "Get pull request #$PR_NUMBER error!"
+                echo "Request error with response code $code!"
+                return 1
+            fi
+            body=$(<file); rm file
+            merged=$(echo $body | jq -r .merged)
+            if test $merged == true; then
+                echo "Pull request #$PR_NUMBER merged"
+            else
+                issueUrl=$(echo $body | jq -r ._links.issue.href)
+                code=$(curl -w %{http_code} -o file -s $issueUrl)
+                if test $code -ne 200; then
+                    echo "Get issue #$PR_NUMBER error!"
+                    echo "Request error with response code $code!"
+                    return 2
+                fi
+                body=$(<file); rm file
+                closedBy=$(echo $body | jq -r .closed_by.login)
+                if test $closedBy == $GITHUB_WORKER_LOGIN; then
+                    BOT="
+
+pull request [#$PR_NUMBER](https://github.com/$GITHUB_OWNER/$GITHUB_REPO/pull/$PR_NUMBER) \
+closed by [$GIT_WORKER_NAME](https://github.com/$GITHUB_WORKER_LOGIN)"
+                else
+                    echo "Issue #$PR_NUMBER was not closed by $GITHUB_WORKER_LOGIN"
+                fi
+            fi
+        fi
     fi
 fi
 
