@@ -22,3 +22,21 @@ if test $code -ne 200; then
     echo "Request error with response code $code!"
     return 2
 fi
+
+REPO_URL=https://github.com/$GITHUB_OWNER/$GITHUB_REPO
+
+json="{\"body\":\"\
+Successfully accepted by GitHub build \
+[#$GITHUB_RUN_NUMBER](https://github.com/$GITHUB_OWNER/$GITHUB_REPO/actions/runs/$GITHUB_RUN_ID) \
+\"}"
+
+code=$(curl -w %{http_code} -o /dev/null -X POST \
+    -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/issues/$PR_NUMBER/comments \
+    -H "Authorization: token $github_pat" \
+    -d "$json")
+
+if test $code -ne 201; then
+    echo "Post comment to pr #$PR_NUMBER error!"
+    echo "Request error with response code $code!"
+    return 3
+fi

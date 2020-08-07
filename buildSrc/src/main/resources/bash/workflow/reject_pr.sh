@@ -16,10 +16,9 @@ if test $code -ne 200; then
     return 2
 fi
 
-REPO_URL=https://github.com/$GITHUB_OWNER/$GITHUB_REPO
-
 json="{\"body\":\"\
-Closed by GitHub build [#$GITHUB_RUN_NUMBER]($REPO_URL/actions/runs/$GITHUB_RUN_ID) \
+Closed by GitHub build \
+[#$GITHUB_RUN_NUMBER](https://github.com/$GITHUB_OWNER/$GITHUB_REPO/actions/runs/$GITHUB_RUN_ID) \
 that failed just because.\
 \"}" # todo cause ?
 

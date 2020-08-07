@@ -1,6 +1,5 @@
 echo "main start..."
 
-echo "GITHUB_ACTION = $GITHUB_ACTION" # todo
 export WORKFLOW=$RESOURCES_PATH/bash/workflow
 
 . $WORKFLOW/vcs_connect.sh || exit 1
@@ -10,7 +9,6 @@ export WORKFLOW=$RESOURCES_PATH/bash/workflow
 if test $IS_LIGHTWEIGHT_BUILD_INTERNAL == $TRUE; then
     echo "skip main pipeline..."
 else
-    IS_BUILD_SUCCESS=$FALSE # todo
 #    docker build --no-cache -f $RESOURCES_PATH/docker/Dockerfile . || IS_BUILD_SUCCESS=$FALSE
 
     if test $IS_BUILD_SUCCESS == $TRUE; then
