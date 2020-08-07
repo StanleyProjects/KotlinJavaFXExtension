@@ -1,34 +1,26 @@
-echo "accept pr #$PR_NUMBER..."
+echo "reject pr #$PR_NUMBER..."
 
 if test -z $github_pat; then
     echo "GitHub personal access token must be exists!"
     return 1
 fi
 
-title="Merge ${GIT_COMMIT_SHA::7} -> $PR_SOURCE_BRANCH by $GIT_WORKER_NAME"
-message=""
-json="{\
-\"commit_title\":\"$title\",\
-\"commit_message\":\"$message\"\
-}"
-
-code=$(curl -w %{http_code} -o /dev/null -X PUT \
-    -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/pulls/$PR_NUMBER/merge \
+code=$(curl -w %{http_code} -o /dev/null -X PATCH \
+    -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/pulls/$PR_NUMBER \
     -H "Authorization: token $github_pat" \
-    -d "$json")
+    -d '{"state":"closed"}')
 
 if test $code -ne 200; then
-    echo "Pull request #$PR_NUMBER accepting error!"
+    echo "Pull request #$PR_NUMBER rejecting error!"
     echo "Request error with response code $code!"
     return 2
 fi
 
-REPO_URL=https://github.com/$GITHUB_OWNER/$GITHUB_REPO
-
 json="{\"body\":\"\
-Successfully accepted by GitHub build \
+Closed by GitHub build \
 [#$GITHUB_RUN_NUMBER](https://github.com/$GITHUB_OWNER/$GITHUB_REPO/actions/runs/$GITHUB_RUN_ID) \
-\"}"
+that failed just because.\
+\"}" # todo cause ?
 
 code=$(curl -w %{http_code} -o /dev/null -X POST \
     -s https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/issues/$PR_NUMBER/comments \

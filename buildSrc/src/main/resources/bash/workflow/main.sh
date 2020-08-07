@@ -9,14 +9,17 @@ export WORKFLOW=$RESOURCES_PATH/bash/workflow
 if test $IS_LIGHTWEIGHT_BUILD_INTERNAL == $TRUE; then
     echo "skip main pipeline..."
 else
-    #docker build --no-cache -f $RESOURCES_PATH/docker/Dockerfile . || IS_BUILD_SUCCESS=$FALSE
+#    docker build --no-cache -f $RESOURCES_PATH/docker/Dockerfile . || IS_BUILD_SUCCESS=$FALSE
 
     if test $IS_BUILD_SUCCESS == $TRUE; then
         . $WORKFLOW/after_success.sh || IS_BUILD_SUCCESS=$FALSE
     else
-        IS_BUILD_SUCCESS=$FALSE # todo
-    #    bash $RESOURCES_PATH/bash/after_failure.sh
+        . $WORKFLOW/after_failure.sh
     fi
 fi
 
 . $WORKFLOW/after.sh
+
+if test $IS_BUILD_SUCCESS != $TRUE; then
+    exit 3
+fi
