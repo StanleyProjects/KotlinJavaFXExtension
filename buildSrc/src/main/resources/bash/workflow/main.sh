@@ -20,3 +20,7 @@ else
 fi
 
 . $WORKFLOW/after.sh
+
+if test $IS_BUILD_SUCCESS != $TRUE; then
+    exit 3
+fi
