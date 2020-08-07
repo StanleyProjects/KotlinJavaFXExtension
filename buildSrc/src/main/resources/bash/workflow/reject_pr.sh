@@ -1,4 +1,4 @@
-echo "accept pr #$PR_NUMBER..."
+echo "reject pr #$PR_NUMBER..."
 
 if test -z $github_pat; then
     echo "GitHub personal access token must be exists!"
@@ -28,7 +28,7 @@ code=$(curl -w %{http_code} -o /dev/null -X POST \
     -H "Authorization: token $github_pat" \
     -d "$json")
 
-if test $code -ne 200; then
+if test $code -ne 201; then
     echo "Post comment to pr #$PR_NUMBER error!"
     echo "Request error with response code $code!"
     return 3

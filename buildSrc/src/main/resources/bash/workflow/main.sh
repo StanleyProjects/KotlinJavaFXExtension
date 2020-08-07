@@ -1,5 +1,6 @@
 echo "main start..."
 
+echo "GITHUB_ACTION = $GITHUB_ACTION" # todo
 export WORKFLOW=$RESOURCES_PATH/bash/workflow
 
 . $WORKFLOW/vcs_connect.sh || exit 1
