@@ -22,20 +22,20 @@ if test $status -ne 0; then
 fi
 
 export VERSION_NAME=""
-export VERSION_CODE=""
+#export VERSION_CODE=""
 while IFS='=' read -r k v; do
     if test $k == versionName; then
         VERSION_NAME=$v
-    elif test $k == versionCode; then
-        VERSION_CODE=$v
+#    elif test $k == versionCode; then
+#        VERSION_CODE=$v
     fi
 done < $ASSEMBLY_PATH/summary
 
 if test -z $VERSION_NAME; then
     echo "Assembly summary file must contains VERSION_NAME!"; return 31
 fi
-if test -z $VERSION_CODE; then
-    echo "Assembly summary file must contains VERSION_CODE!"; return 32
-fi
+#if test -z $VERSION_CODE; then
+#    echo "Assembly summary file must contains VERSION_CODE!"; return 32
+#fi
 
 return 0
