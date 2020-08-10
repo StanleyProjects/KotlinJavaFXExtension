@@ -10,5 +10,5 @@ object Version {
     const val javafx = "12"
 
     const val name = "0.1.0"
-    const val code = 3
+    const val code = 5
 }
