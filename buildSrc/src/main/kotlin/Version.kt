@@ -9,6 +9,6 @@ object Version {
     const val openjfx = "0.0.9"
     const val javafx = "12"
 
-    const val name = "0.1.0"
-    const val code = 5
+    const val name = "0.1.1"
+    const val code = 6
 }

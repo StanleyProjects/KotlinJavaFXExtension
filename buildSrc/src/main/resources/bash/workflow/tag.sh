@@ -5,8 +5,6 @@ if test -z $github_pat; then
     return 1
 fi
 
-TAG_NAME="$VERSION_NAME-snapshot" # todo dev/master
-
 body="by $GIT_WORKER_NAME"
 json="{\
 \"tag_name\":\"$TAG_NAME\",
