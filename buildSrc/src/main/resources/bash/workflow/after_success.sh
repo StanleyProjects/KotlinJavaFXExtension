@@ -10,14 +10,9 @@ if test -z $PR_SOURCE_BRANCH; then
     return 1
 fi
 
-if [[ " ${PR_BRANCH_NAMES[@]} " =~ " $PR_SOURCE_BRANCH " ]]; then
-    if test $PR_SOURCE_BRANCH == $DEVELOP_BRANCH_NAME; then
-        . $WORKFLOW/tag_test.sh || return 21
-    fi
+if test $PR_SOURCE_BRANCH == $DEVELOP_BRANCH_NAME; then
+    export TAG_NAME="$VERSION_NAME-snapshot" # todo dev/master
+    . $WORKFLOW/tag_test.sh || return 21
     . $WORKFLOW/accept_pr.sh || return 22
-    if test $PR_SOURCE_BRANCH == $DEVELOP_BRANCH_NAME; then
-        . $WORKFLOW/tag.sh || return 23
-    fi
-else
-    echo "$PR_SOURCE_BRANCH is not in [${PR_BRANCH_NAMES[@]}]"
+    . $WORKFLOW/tag.sh || return 23
 fi

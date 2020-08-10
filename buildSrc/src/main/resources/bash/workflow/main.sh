@@ -12,7 +12,8 @@ else
 
     if test $IS_BUILD_SUCCESS == $TRUE; then
         . $WORKFLOW/after_success.sh || IS_BUILD_SUCCESS=$FALSE
-    else
+    fi
+    if test $IS_BUILD_SUCCESS != $TRUE; then
         . $WORKFLOW/after_failure.sh
     fi
 fi
