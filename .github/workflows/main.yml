@@ -3,7 +3,9 @@ name: Pipeline
 on:
   pull_request:
     types: [opened]
-  push:
+    branches:
+      - dev
+#  push:
   workflow_dispatch:
     inputs:
       ci_build_lightweight:
