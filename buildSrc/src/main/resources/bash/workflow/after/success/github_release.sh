@@ -31,9 +31,10 @@ releaseId=$(echo $body | jq -r .id)
 
 fileName=${APPLICATION_ID}-${VERSION_NAME}-${VERSION_CODE}-snapshot.jar
 code=$(curl -w %{http_code} -o /dev/null -X POST \
-    -s "https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/releases/$releaseId/assets?name=$fileName&label=$fileName" \
+    -s "https://uploads.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/releases/$releaseId/assets?name=$fileName&label=$fileName" \
+    -H "Content-Type: application/java-archive" \
     -H "Authorization: token $github_pat" \
-    --data-binary $ASSEMBLY_PATH/assembly/build/snapshot/$fileName)
+    --data-binary @$ASSEMBLY_PATH/assembly/build/snapshot/$fileName)
 if test $code -ne 201; then
     echo "Upload file $fileName error!"
     echo "Request error with response code $code!"
