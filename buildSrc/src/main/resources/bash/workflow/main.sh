@@ -8,13 +8,13 @@ export WORKFLOW=$RESOURCES_PATH/bash/workflow
 if test $IS_LIGHTWEIGHT_BUILD_INTERNAL == $TRUE; then
     echo "skip main pipeline..."
 else
-    . $WORKFLOW/build.sh || IS_BUILD_SUCCESS=$FALSE
+    . $WORKFLOW/build/main.sh || IS_BUILD_SUCCESS=$FALSE
 
     if test $IS_BUILD_SUCCESS == $TRUE; then
-        . $WORKFLOW/after_success.sh || IS_BUILD_SUCCESS=$FALSE
+        . $WORKFLOW/after/success/main.sh || IS_BUILD_SUCCESS=$FALSE
     fi
     if test $IS_BUILD_SUCCESS != $TRUE; then
-        . $WORKFLOW/after_failure.sh
+        . $WORKFLOW/after/failure/main.sh
     fi
 fi
 

@@ -1,4 +1,4 @@
-echo "tag..."
+echo "github release..."
 
 if test -z $github_pat; then
     echo "GitHub personal access token must be exists!"
@@ -26,9 +26,18 @@ if test $code -ne 201; then
     return 2
 fi
 body=$(<file); rm file
+
 releaseId=$(echo $body | jq -r .id)
 
-echo "release $releaseId created" # todo
-# todo asset
+fileName=${APPLICATION_ID}-${VERSION_NAME}-${VERSION_CODE}-snapshot.jar
+code=$(curl -w %{http_code} -o /dev/null -X POST \
+    -s "https://api.github.com/repos/$GITHUB_OWNER/$GITHUB_REPO/releases/$releaseId/assets?name=$fileName&label=$fileName" \
+    -H "Authorization: token $github_pat" \
+    --data-binary $ASSEMBLY_PATH/assembly/build/snapshot/$fileName)
+if test $code -ne 201; then
+    echo "Upload file $fileName error!"
+    echo "Request error with response code $code!"
+    return 3
+fi
 
 return 0

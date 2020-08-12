@@ -160,3 +160,9 @@ task("versionCode") {
         println(Version.code)
     }
 }
+
+task("applicationId") {
+    doLast {
+        println(Common.applicationId)
+    }
+}

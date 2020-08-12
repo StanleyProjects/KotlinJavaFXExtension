@@ -11,7 +11,7 @@ if test -z $PR_SOURCE_BRANCH; then
 fi
 
 if [[ " ${PR_BRANCH_NAMES[@]} " =~ " $PR_SOURCE_BRANCH " ]]; then
-    . $WORKFLOW/reject_pr.sh || return 2
+    . $WORKFLOW/after/failure/reject_pr.sh || return 2
 else
     echo "$PR_SOURCE_BRANCH is not in [${PR_BRANCH_NAMES[@]}]"
 fi

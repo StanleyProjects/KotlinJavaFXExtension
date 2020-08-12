@@ -31,27 +31,28 @@ tasks.withType<Test> {
 val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 
 setOf(
-    "Release",
-    "Snapshot"
-).forEach {
+    "release",
+    "snapshot"
+).forEach { type ->
     val buildName = Common.applicationId
-    val versionName = when (it) {
+    val versionName = when (type) {
         "Release" -> version.toString()
-        else -> "$version-$it"
+        else -> "$version-$type"
     }
-    task<Jar>("assemble$it") {
+    val taskName = "assemble" + type.capitalize()
+    task<Jar>(taskName) {
         dependsOn(compileKotlin)
         archiveBaseName.set(buildName)
         archiveVersion.set(versionName)
         from(compileKotlin.destinationDir)
     }
-    task<Jar>("assemble${it}Source") {
+    task<Jar>(taskName + "Source") {
         archiveBaseName.set(buildName)
         archiveVersion.set(versionName)
         archiveClassifier.set("sources")
         from(sourceSets["main"].allSource)
     }
-    task("assemble${it}Pom") {
+    task(taskName + "Pom") {
         doLast {
             val parent = File(buildDir, "libs")
             if (!parent.exists()) parent.mkdirs()
