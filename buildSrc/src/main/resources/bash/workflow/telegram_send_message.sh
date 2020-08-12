@@ -29,4 +29,3 @@ if test $code -ne 200; then
 fi
 
 echo "message sent by telegram bot"
-#echo "message: $MESSAGE sent by telegram bot"
